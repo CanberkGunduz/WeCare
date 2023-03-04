@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>694839190375-3i6najsrriak5bvr7n8qsrjgqsdoh3p6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.694839190375-3i6najsrriak5bvr7n8qsrjgqsdoh3p6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBW93DpW2VyofTcjLF59HVFbNCdE8m27hc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>694839190375</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.gdscMetu2023</string>
+	<key>PROJECT_ID</key>
+	<string>gdscmetu2023</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gdscmetu2023.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:694839190375:ios:eded1e53276d7e671cc5c2</string>
+	<key>DATABASE_URL</key>
+	<string>https://gdscmetu2023-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

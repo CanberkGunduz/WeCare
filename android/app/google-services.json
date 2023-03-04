@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "694839190375",
+    "firebase_url": "https://gdscmetu2023-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "gdscmetu2023",
+    "storage_bucket": "gdscmetu2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694839190375:android:c8de929a52151f201cc5c2",
+        "android_client_info": {
+          "package_name": "com.example.gdsc_metu2023"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694839190375-afi4mgekm8l1kbbgqpjeotv5ik5nf682.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCVTS59WW0NllWykCdvrmKm7N0oabfqe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694839190375-afi4mgekm8l1kbbgqpjeotv5ik5nf682.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
