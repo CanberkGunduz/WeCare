@@ -1,8 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'screens/homepage.dart';
+import 'mainpage.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "GDSC 2023",
-      home: Homepage(),
+      home: MainPage(),
     );
   }
 }

@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../controllers/tab_controller.dart';
+import '../controllers/homepage_controller.dart';
 
 class Homepage extends StatelessWidget {
   Homepage({super.key});
 
-  RxInt _currentIndex = 0.obs;
-  final MyTabController _tabx = Get.put(MyTabController());
+  final HomeTabController _tabx = Get.put(HomeTabController());
 
   @override
   Widget build(BuildContext context) {
     return TabBarView(controller: _tabx.controller, children: [
       profile_view(),
-      main_home_view(currentIndex: _currentIndex),
+      main_home_view(),
       notif_messages_view(),
     ]);
   }
@@ -117,7 +115,6 @@ class profile_view extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 24, 0, 16),
@@ -129,6 +126,7 @@ class profile_view extends StatelessWidget {
                   CircleAvatar(
                     radius: 60,
                     backgroundColor: Colors.grey[400],
+                    backgroundImage: AssetImage("assets/placeholder.png"),
                   ),
                   SizedBox(width: 20),
                   Column(
@@ -283,213 +281,189 @@ class profile_view extends StatelessWidget {
 class main_home_view extends StatelessWidget {
   const main_home_view({
     Key? key,
-    required RxInt currentIndex,
-  })  : _currentIndex = currentIndex,
-        super(key: key);
-
-  final RxInt _currentIndex;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[200],
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          color: Colors.grey,
+          icon: const Icon(
+            Icons.person,
+            size: 36,
+          ),
+          onPressed: () {},
+        ),
+        centerTitle: true,
+        title: const Text("GDSC 2023",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.w400)),
+        actions: [
+          IconButton(
             color: Colors.grey,
             icon: const Icon(
-              Icons.person,
+              Icons.mail,
               size: 36,
             ),
             onPressed: () {},
           ),
-          centerTitle: true,
-          title: const Text("GDSC 2023",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400)),
-          actions: [
-            IconButton(
-              color: Colors.grey,
-              icon: const Icon(
-                Icons.mail,
-                size: 36,
+        ],
+      ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                //  boxShadow: [
+                //    BoxShadow(
+                //      color: Colors.grey.withOpacity(0.5),
+                //      spreadRadius: 5,
+                //      blurRadius: 7,
+                //      offset: const Offset(0, 3), // changes position of shadow
+                //    ),
+                //  ],
               ),
-              onPressed: () {},
+              height: Get.size.height * 0.25,
+              width: Get.size.width,
+              child: Center(
+                  child: Text(
+                "Welcome, Username",
+                style: TextStyle(fontSize: 20, color: Colors.black),
+              )),
             ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  //  boxShadow: [
-                  //    BoxShadow(
-                  //      color: Colors.grey.withOpacity(0.5),
-                  //      spreadRadius: 5,
-                  //      blurRadius: 7,
-                  //      offset: const Offset(0, 3), // changes position of shadow
-                  //    ),
-                  //  ],
-                ),
-                height: Get.size.height * 0.25,
-                width: Get.size.width,
-                child: Center(
-                    child: Text(
-                  "Welcome, Username",
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                )),
-              ),
-              Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 70,
-                            width: 110,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Rest Home",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black),
-                              ),
+            Container(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: 70,
+                          width: 110,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Rest Home",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
-                          Container(
-                            height: 70,
-                            width: 110,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Shelter",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black),
-                              ),
+                        ),
+                        Container(
+                          height: 70,
+                          width: 110,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Shelter",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
-                          Container(
-                            height: 70,
-                            width: 110,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Garbage",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black),
-                              ),
+                        ),
+                        Container(
+                          height: 70,
+                          width: 110,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Garbage",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 70,
-                            width: 110,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Rest Home",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black),
-                              ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: 70,
+                          width: 110,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Rest Home",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
-                          Container(
-                            height: 70,
-                            width: 110,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Rest Home",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black),
-                              ),
+                        ),
+                        Container(
+                          height: 70,
+                          width: 110,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Rest Home",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
-                          Container(
-                            height: 70,
-                            width: 110,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Rest Home",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black),
-                              ),
+                        ),
+                        Container(
+                          height: 70,
+                          width: 110,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Rest Home",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      hintText: "Search",
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+            ),
+            Container(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Search",
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        bottomNavigationBar: Obx(
-          () => BottomNavigationBar(
-            onTap: (value) => _currentIndex.value = value,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_month),
-                label: 'Calendar',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              ),
-            ],
-            currentIndex: _currentIndex.value,
-            selectedItemColor: Colors.amber[800],
-          ),
-        ));
+      ),
+    );
   }
 }
