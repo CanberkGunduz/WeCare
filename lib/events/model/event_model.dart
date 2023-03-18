@@ -1,4 +1,4 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
   // String username;
@@ -38,19 +38,19 @@ class Event {
         // "id": id,
       };
 
-  // static Event fromSnap(DocumentSnapshot snap) {
-  //   var snapshot = snap.data() as Map<String, dynamic>;
-  //   return Event(
-  //     // username: snapshot["username"],
-  //     eventName: snapshot["eventName"],
-  //     // eventDetail: snapshot["eventDetail"],
-  //     // eventLocation: snapshot["eventLocation"],
-  //     // datePublished: snapshot["datePublished"],
-  //     // eventDate: snapshot["eventDate"],
-  //     // participants: snapshot["participants"],
-  //     // profilePhoto: snapshot["profilePhoto"],
-  //     // uid: snapshot["uid"],
-  //     // id: snapshot["id"],
-  //   );
-  // }
+  static Event fromSnap(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
+    return Event(
+      // username: snapshot["username"],
+      eventName: snapshot["eventName"],
+      // eventDetail: snapshot["eventDetail"],
+      // eventLocation: snapshot["eventLocation"],
+      // datePublished: snapshot["datePublished"],
+      // eventDate: snapshot["eventDate"],
+      // participants: snapshot["participants"],
+      // profilePhoto: snapshot["profilePhoto"],
+      // uid: snapshot["uid"],
+      // id: snapshot["id"],
+    );
+  }
 }
