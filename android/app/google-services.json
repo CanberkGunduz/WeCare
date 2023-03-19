@@ -30,6 +30,13 @@
             {
               "client_id": "694839190375-afi4mgekm8l1kbbgqpjeotv5ik5nf682.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "694839190375-3i6najsrriak5bvr7n8qsrjgqsdoh3p6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gdscMetu2023"
+              }
             }
           ]
         }
