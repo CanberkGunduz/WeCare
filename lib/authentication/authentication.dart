@@ -69,11 +69,11 @@ class AuthController extends GetxController {
           image != null) {
         List<String> emailSplit = email.split("@");
         String emailExtension = emailSplit[1];
-        if (emailExtension != "metu.edu.tr") {
-          Get.snackbar(
-              "Error Creating User", "Please Enter A Metu Email Address");
-          return;
-        }
+        // if (emailExtension != "metu.edu.tr") {
+        //   Get.snackbar(
+        //       "Error Creating User", "Please Enter A Metu Email Address");
+        //   return;
+        // }
         // save our user to our auth and firebase firestore
         UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
           email: email,
