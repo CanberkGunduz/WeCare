@@ -11,14 +11,14 @@ class EventsCreatedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final events = [
-      Event(eventName: "Project 1"),
-      Event(eventName: "Project 2"),
-      Event(eventName: "Project 3"),
+      // Event(eventName: "Project 1"),
+      // Event(eventName: "Project 2"),
+      // Event(eventName: "Project 3"),
     ];
     final events_previous = [
-      Event(eventName: "Project 4"),
-      Event(eventName: "Project 5"),
-      Event(eventName: "Project 6"),
+      // Event(eventName: "Project 4"),
+      // Event(eventName: "Project 5"),
+      // Event(eventName: "Project 6"),
     ];
     return GestureDetector(
       child: SingleChildScrollView(
@@ -33,7 +33,7 @@ class EventsCreatedPage extends StatelessWidget {
                 Text("Upcoming", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
               ],
             ),
-            SizedBox(height: 10,),
+            // SizedBox(height: 10,),
             ListView.builder(
               physics: BouncingScrollPhysics(),
               shrinkWrap: true,
@@ -46,14 +46,14 @@ class EventsCreatedPage extends StatelessWidget {
                   );
               },
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 20,),
             Row(
               children: [
                 SizedBox(width: 25,),
                 Text("Previous", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
               ],
             ),
-            SizedBox(height: 10,),
+            // SizedBox(height: 10,),
             ListView.builder(
               physics: BouncingScrollPhysics(),
               shrinkWrap: true,

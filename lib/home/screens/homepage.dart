@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controllers/homepage_controller.dart';
 
 class Homepage extends StatelessWidget {
-  Homepage({super.key});
-
-  final HomeTabController _tabx = Get.put(HomeTabController());
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+  final HomeController _homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    return TabBarView(controller: _tabx.controller, children: [
-      profile_view(),
-      main_home_view(),
-      notif_messages_view(),
-    ]);
+    return Stack(
+      children: [
+        Scaffold(backgroundColor: Colors.grey[200],),
+        Row(children: [
+      Column(
+        children: [
+          Container(width: Get.size.width*0.8,height: Get.size.height*0.1,),
+        ],
+      ),
+      Column(
+        children: [
+          Container(width: Get.size.width*0.2,height: Get.size.height*0.1,child: Image.asset("assets/placeholder.png",fit: BoxFit.contain,),
+      )]
+      ),
+    ],)],);
   }
 }
 

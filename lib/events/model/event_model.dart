@@ -6,7 +6,7 @@ class Event {
   // String eventDetail;
   // String eventLocation;
   // final datePublished;
-  // var eventDate;
+  var eventDate;
   // List participants;
   // String profilePhoto;
   // String uid;
@@ -18,7 +18,7 @@ class Event {
     // required this.eventDetail,
     // required this.eventLocation,
     // required this.datePublished,
-    // required this.eventDate,
+    required this.eventDate,
     // required this.participants,
     // required this.profilePhoto,
     // required this.uid,
@@ -31,7 +31,7 @@ class Event {
         // "eventDetail": eventDetail,
         // "eventLocation": eventLocation,
         // "datePublished": datePublished,
-        // "eventDate": eventDate,
+        "eventDate": eventDate,
         // "participants": participants,
         // "profilePhoto": profilePhoto,
         // "uid": uid,

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class HomeTabController extends GetxController
-    with GetSingleTickerProviderStateMixin {
-  late TabController controller;
+class HomeController extends GetxController {
+  late GoogleMapController mapController;
 
-  @override
-  void onInit() {
-    super.onInit();
-    controller = TabController(vsync: this, length: 3);
-    controller.index = 1;
+  void onMapCreated(GoogleMapController controller) {
+    mapController = controller;
   }
 
-  @override
-  void onClose() {
-    controller.dispose();
-    super.onClose();
+  Future moveCamera(Future<LatLng> location) async {
+    await mapController.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        target: await location,
+        zoom: 14.0,
+      ),
+    ));
   }
 }
+
