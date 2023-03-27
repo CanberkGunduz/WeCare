@@ -48,12 +48,8 @@ android {
         applicationId "com.example.gdsc_metu2023"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-<<<<<<< HEAD
-        minSdkVersion 20
-=======
         minSdkVersion 21
         multiDexEnabled true
->>>>>>> e9437f318350cf659b7fdd495e6294ad746313ca
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

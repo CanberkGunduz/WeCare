@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'calendarpage.dart';
+import 'calendar/screens/calendarpage.dart';
 import 'events/screens/events_main.dart';
 import 'home/screens/homepage.dart';
 
@@ -28,8 +28,8 @@ class MainPage extends StatelessWidget {
               label: 'Calendar',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
+              icon: Icon(Icons.people),
+              label: 'Community',
             ),
           ],
           currentIndex: _currentIndex.value,

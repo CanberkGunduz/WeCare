@@ -93,17 +93,17 @@ class EventController extends GetxController {
         var id = uuid.v1();
 
         Event event = Event(
-          // username: (userDoc.data()! as Map<String, dynamic>)["name"],
-          // uid: uid,
-          // id: id,
-          // participants: [],
+          username: (userDoc.data()! as Map<String, dynamic>)["name"],
+          uid: uid,
+          id: id,
+          participants: [],
           eventName: eventName,
-          // eventDetail: eventDetail,
-          // profilePhoto:
-          //     (userDoc.data()! as Map<String, dynamic>)["profilePhoto"],
-          // datePublished: DateTime.now(),
-          // eventDate: eventDate,
-          // eventLocation: eventLocation,
+          eventDetail: eventDetail,
+          profilePhoto:
+              (userDoc.data()! as Map<String, dynamic>)["profilePhoto"],
+          datePublished: DateTime.now(),
+          eventDate: eventDate,
+          eventLocation: eventLocation,
         );
         Map<String, dynamic> id_date = {
           "id": id,

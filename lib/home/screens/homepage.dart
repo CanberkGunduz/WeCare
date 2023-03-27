@@ -1,29 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:gdsc_metu2023/profile_screen.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controllers/homepage_controller.dart';
 
 class Homepage extends StatelessWidget {
-  final LatLng _center = const LatLng(45.521563, -122.677433);
   final HomeController _homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(backgroundColor: Colors.grey[200],),
-        Row(children: [
-      Column(
+    return SafeArea(
+      child: Stack(
         children: [
-          Container(width: Get.size.width*0.8,height: Get.size.height*0.1,),
+          Scaffold(
+            backgroundColor: Colors.grey[200],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            child: Container(
+              height: Get.size.height * 0.1,
+              // width: Get.size.width,
+              color: Colors.white,
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        color: Colors.grey[500],
+                        width: Get.size.width * 0.73,
+                        height: Get.size.height * 0.05,
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Container(
+                            color: Colors.grey[500],
+                            width: Get.size.width * 0.3,
+                            height: Get.size.height * 0.03,
+                          ),
+                          SizedBox(width: 10),
+                          Container(
+                            color: Colors.grey[500],
+                            width: Get.size.width * 0.4,
+                            height: Get.size.height * 0.03,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 10),
+                  InkWell(
+                    onTap: () => Get.to(() => ProfileScreen()),
+                    child: ClipOval(
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey[400],
+                        radius: 36,
+                        child: Image.asset(
+                          "assets/placeholder.png",
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+              bottom: Get.size.height * 0.02,
+              right: Get.size.width * 0.05,
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.menu,
+                    size: 30,
+                  ),
+                ),
+              ))
         ],
       ),
-      Column(
-        children: [
-          Container(width: Get.size.width*0.2,height: Get.size.height*0.1,child: Image.asset("assets/placeholder.png",fit: BoxFit.contain,),
-      )]
-      ),
-    ],)],);
+    );
   }
 }
 
