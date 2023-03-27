@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'authentication/authentication.dart';
 import 'mainpage.dart';
+import 'map/map.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((value) {
+  /*await Firebase.initializeApp().then((value) {
     Get.put(AuthController());
-  });
+  });*/
   runApp(const MyApp());
 }
 

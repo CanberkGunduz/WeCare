@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gdsc_metu2023/profile_screen.dart';
 import 'package:get/get.dart';
 import '../controllers/homepage_controller.dart';
+import '../../map/map.dart';
 
 class Homepage extends StatelessWidget {
   final HomeController _homeController = Get.put(HomeController());
@@ -82,7 +83,8 @@ class Homepage extends StatelessWidget {
                     size: 30,
                   ),
                 ),
-              ))
+              )),
+          Map(),
         ],
       ),
     );
