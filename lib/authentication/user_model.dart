@@ -5,6 +5,8 @@ class User {
   String profilePhoto;
   String email;
   String uid;
+  String gender;
+  var dateOfBirth;
   List eventPosts;
   int activeEventCount;
   int joinedEventCount;
@@ -14,6 +16,8 @@ class User {
     required this.profilePhoto,
     required this.email,
     required this.uid,
+    required this.gender,
+    required this.dateOfBirth,
     required this.eventPosts,
     required this.activeEventCount,
     required this.joinedEventCount,
@@ -24,6 +28,8 @@ class User {
         "profilePhoto": profilePhoto,
         "email": email,
         "uid": uid,
+        "gender": gender,
+        "dateOfBirth": dateOfBirth,
         "eventPosts": eventPosts,
         "activeEventCount": activeEventCount,
         "joinedEventCount": joinedEventCount,
@@ -36,6 +42,8 @@ class User {
       email: snapshot["email"],
       profilePhoto: snapshot["profilePhoto"],
       uid: snapshot["uid"],
+      gender: snapshot["gender"],
+      dateOfBirth: snapshot["dateOfBirth"],
       eventPosts: snapshot["eventPosts"],
       activeEventCount: snapshot["activeEventCount"],
       joinedEventCount: snapshot["joinedEventCount"],

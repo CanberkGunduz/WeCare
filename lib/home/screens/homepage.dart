@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gdsc_metu2023/constants.dart';
 import 'package:gdsc_metu2023/profile_screen.dart';
 import 'package:get/get.dart';
 import '../controllers/homepage_controller.dart';
@@ -76,7 +77,9 @@ class Homepage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    authController.signOut();
+                  },
                   icon: Icon(
                     Icons.menu,
                     size: 30,

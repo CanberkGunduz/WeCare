@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gdsc_metu2023/constants.dart';
 import 'package:get/get.dart';
 
+import 'authentication/user_model.dart';
+
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
@@ -16,6 +18,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User user = authController.user;
+    DateTime date = user.dateOfBirth.toDate();
     return Scaffold(
       appBar: AppBar(
         title: const Text('WeCare', style: TextStyle(color: Colors.orange)),
@@ -67,10 +71,27 @@ class ProfileScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 84,
-                    backgroundImage: NetworkImage(
-                        'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
+                  ClipOval(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[200],
+                      radius: 80,
+                      child: Image.network(
+                        user.profilePhoto,
+                        fit: BoxFit.contain,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   SizedBox(width: 10),
                   Column(
@@ -82,7 +103,7 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           SizedBox(height: 20),
                           Text(
-                            'Name Surname',
+                            user.name,
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.w500),
                           ),
@@ -90,13 +111,13 @@ class ProfileScreen extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                'Birthday: 02/09/1995',
+                                'Birthday: ${date.day}/${date.month}/${date.year}',
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w400),
                               ),
                               SizedBox(width: 10),
                               Text(
-                                "Male",
+                                user.gender,
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w400),
                               ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gdsc_metu2023/authentication/login_screen.dart';
@@ -11,20 +12,22 @@ import '../constants.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-  late Rx<User?> _user;
+  late Rx<model.User?> _user;
+  late Rx<User?> _firebaseuser;
   late Rx<File?> _pickedImage;
   late Rx<String> _profilePhotoUrl;
 
   File? get profilePhoto => _pickedImage.value;
   String get profilePhotoUrl => _profilePhotoUrl.value;
-  User get user => _user.value!;
+  User get firebaseuser => _firebaseuser.value!;
+  model.User get user => _user.value!;
 
   @override
   void onReady() {
     super.onReady();
-    _user = Rx<User?>(firebaseAuth.currentUser);
-    _user.bindStream(firebaseAuth.authStateChanges());
-    ever(_user, _setInitialScreen);
+    _firebaseuser = Rx<User?>(firebaseAuth.currentUser);
+    _firebaseuser.bindStream(firebaseAuth.authStateChanges());
+    ever(_firebaseuser, _setInitialScreen);
   }
 
   _setInitialScreen(User? user) {
@@ -32,7 +35,16 @@ class AuthController extends GetxController {
       Get.offAll(() => LoginPage());
     } else {
       Get.offAll(() => MainPage());
+      setUserData();
     }
+  }
+
+  setUserData() async {
+    String uid = firebaseAuth.currentUser!.uid;
+    DocumentSnapshot userDoc =
+        await firestore.collection("users").doc(uid).get();
+    _user = Rx<model.User?>(model.User.fromSnap(userDoc));
+    print(_user.value!.profilePhoto);
   }
 
   void pickImage() async {
@@ -60,12 +72,14 @@ class AuthController extends GetxController {
   }
 
   // registering the user
-  void registerUser(
-      String username, String email, String password, File? image) async {
+  Future<bool> registerUser(String username, String email, String password,
+      String gender, DateTime dateOfBirth, File? image) async {
     try {
       if (username.isNotEmpty &&
           email.isNotEmpty &&
           password.isNotEmpty &&
+          gender.isNotEmpty &&
+          dateOfBirth != null &&
           image != null) {
         List<String> emailSplit = email.split("@");
         String emailExtension = emailSplit[1];
@@ -79,12 +93,15 @@ class AuthController extends GetxController {
           email: email,
           password: password,
         );
+        print("cred");
         String downloadUrl = await _uploadToStorage(image);
         model.User user = model.User(
           name: username,
           profilePhoto: downloadUrl,
           email: email,
           uid: cred.user!.uid,
+          gender: gender,
+          dateOfBirth: dateOfBirth,
           eventPosts: [],
           activeEventCount: 0,
           joinedEventCount: 0,
@@ -93,14 +110,20 @@ class AuthController extends GetxController {
             .collection("users")
             .doc(cred.user!.uid)
             .set(user.toJson());
+        await setUserData();
+        print("set user");
+
+        return true;
       } else {
         Get.snackbar(
           "Error Creating User",
           "Please Enter All The Fields",
         );
+        return false;
       }
     } catch (e) {
       Get.snackbar("Error Creating User", e.toString());
+      return false;
     }
   }
 
