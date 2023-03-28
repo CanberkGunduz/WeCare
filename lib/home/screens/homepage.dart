@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gdsc_metu2023/constants.dart';
 import 'package:gdsc_metu2023/profile_screen.dart';
 import 'package:get/get.dart';
+import '../../authentication/user_model.dart';
 import '../controllers/homepage_controller.dart';
 
 class Homepage extends StatelessWidget {
@@ -9,6 +10,7 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User user = authController.user;
     return SafeArea(
       child: Stack(
         children: [
@@ -53,11 +55,24 @@ class Homepage extends StatelessWidget {
                     onTap: () => Get.to(() => ProfileScreen()),
                     child: ClipOval(
                       child: CircleAvatar(
-                        backgroundColor: Colors.grey[400],
+                        backgroundColor: Colors.grey[300],
                         radius: 36,
-                        child: Image.asset(
-                          "assets/placeholder.png",
+                        child: Image.network(
+                          user.profilePhoto,
                           fit: BoxFit.contain,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),

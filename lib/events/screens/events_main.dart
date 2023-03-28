@@ -14,11 +14,10 @@ class EventMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
-        title: TabBar(
-          controller: myTabController.controller,
-          tabs: [
+        title: TabBar(controller: myTabController.controller, tabs: [
           Tab(
             child: Text(
               "Past",

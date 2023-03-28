@@ -11,8 +11,8 @@ class EventCreateScreen extends StatelessWidget {
   final TextEditingController _eventDetailsController = TextEditingController();
   final TextEditingController _eventLocationController =
       TextEditingController();
-  Rx date = DateTime.now().obs;
-  Rx time = TimeOfDay.now().obs;
+  Rx<DateTime> date = DateTime.now().obs;
+  Rx<TimeOfDay> time = TimeOfDay.now().obs;
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +57,18 @@ class EventCreateScreen extends StatelessWidget {
                     confirmTextColor: Colors.white,
                     onConfirm: () async {
                       Get.back();
+                      DateTime newDate = DateTime(
+                        date.value.year,
+                        date.value.month,
+                        date.value.day,
+                        time.value.hour,
+                        time.value.minute,
+                      );
                       bool created = await eventController.createEvent(
                         _eventNameController.text,
                         _eventDetailsController.text,
                         _eventLocationController.text,
-                        date.value,
+                        newDate,
                       );
                       if (created) {
                         _eventNameController.clear();
@@ -266,14 +273,14 @@ class EventCreateScreen extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () async {
-                    date.value = await showDatePicker(
+                    date.value = (await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 90)),
-                    );
-                    time.value = await showTimePicker(
-                        context: context, initialTime: TimeOfDay.now());
+                    ))!;
+                    time.value = (await showTimePicker(
+                        context: context, initialTime: TimeOfDay.now()))!;
                   },
                   child: Container(
                     height: 50,
@@ -340,16 +347,31 @@ class EventCreateScreen extends StatelessWidget {
                         backgroundColor: Colors.white,
                         title: "Create Event",
                         textConfirm: "Create",
+                        confirmTextColor: Colors.white,
                         textCancel: "Cancel",
                         cancelTextColor: Colors.orange,
                         buttonColor: Colors.orange,
-                        onConfirm: () {
-                          eventController.createEvent(
+                        onConfirm: () async {
+                          Get.back();
+                          DateTime newDate = DateTime(
+                            date.value.year,
+                            date.value.month,
+                            date.value.day,
+                            time.value.hour,
+                            time.value.minute,
+                          );
+                          bool created = await eventController.createEvent(
                             _eventNameController.text,
                             _eventDetailsController.text,
                             _eventLocationController.text,
-                            date.value,
+                            newDate,
                           );
+                          if (created) {
+                            _eventNameController.clear();
+                            _eventDetailsController.clear();
+                            _eventLocationController.clear();
+                            FocusScope.of(context).unfocus();
+                          }
                           // Get.back();
                         },
                         content: Column(

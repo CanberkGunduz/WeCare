@@ -24,10 +24,11 @@ class EventTabController extends GetxController
 }
 
 class EventController extends GetxController {
-  final Rx<List<Event>> _eventList = Rx<List<Event>>([]);
-  Rx<String> sortCriteria = "participants".obs;
+  final Rx<List<List<Event>>> _eventList = Rx<List<List<Event>>>([]);
+  // Rx<String> sortCriteria = "participants".obs;
+  final user = authController.user;
 
-  List<Event> get eventList => _eventList.value;
+  List<List<Event>> get eventList => _eventList.value;
   // List<Event> get eventList {
   //   if (sortCriteria.value == "newest") {
   //     sortByNewest();
@@ -45,10 +46,21 @@ class EventController extends GetxController {
     _eventList.bindStream(
       firestore.collection("events").snapshots().map(
         (QuerySnapshot query) {
-          List<Event> retValue = [];
+          List<List<Event>> retValue = [];
+          List<Event> futureEvents = [];
+          List<Event> pastEvents = [];
+          DateTime now = DateTime.now();
           for (var element in query.docs) {
-            retValue.add(Event.fromSnap(element));
+            Event event = Event.fromSnap(element);
+            DateTime eventdate = event.eventDate.toDate();
+            if (eventdate.isAfter(now)) {
+              futureEvents.add(event);
+            } else {
+              pastEvents.add(event);
+            }
           }
+          retValue.add(futureEvents);
+          retValue.add(pastEvents);
           return retValue;
         },
       ),
@@ -78,8 +90,8 @@ class EventController extends GetxController {
   // }
 
   // create event
-  createEvent(String eventName, String eventDetail, String eventLocation,
-      DateTime eventDate) async {
+  Future<bool> createEvent(String eventName, String eventDetail,
+      String eventLocation, DateTime eventDate) async {
     try {
       if (eventName.isNotEmpty &&
           eventDetail.isNotEmpty &&
@@ -93,14 +105,13 @@ class EventController extends GetxController {
         var id = uuid.v1();
 
         Event event = Event(
-          username: (userDoc.data()! as Map<String, dynamic>)["name"],
+          username: user.name,
           uid: uid,
           id: id,
           participants: [],
           eventName: eventName,
           eventDetail: eventDetail,
-          profilePhoto:
-              (userDoc.data()! as Map<String, dynamic>)["profilePhoto"],
+          profilePhoto: user.profilePhoto,
           datePublished: DateTime.now(),
           eventDate: eventDate,
           eventLocation: eventLocation,
@@ -129,6 +140,7 @@ class EventController extends GetxController {
           backgroundColor: Colors.grey,
         );
         Get.back();
+        return true;
       } else {
         Get.back();
         Get.snackbar(
@@ -136,6 +148,7 @@ class EventController extends GetxController {
           "Error Creating Event",
           "Please Enter All The Fields",
         );
+        return false;
       }
     } catch (e) {
       Get.snackbar(
@@ -143,6 +156,7 @@ class EventController extends GetxController {
         e.toString(),
         backgroundColor: Colors.grey,
       );
+      return false;
     }
   }
 }

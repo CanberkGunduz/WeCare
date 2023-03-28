@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gdsc_metu2023/events/controllers/event_controller.dart';
 import 'package:gdsc_metu2023/events/screens/events_create.dart';
 import 'package:gdsc_metu2023/events/tiles/event_tile.dart';
 import 'package:get/get.dart';
@@ -7,20 +8,14 @@ import '../model/event_model.dart';
 import 'events_details.dart';
 
 class EventsCreatedPage extends StatelessWidget {
-  const EventsCreatedPage({super.key});
+  EventsCreatedPage({super.key});
+
+  EventController eventController = Get.put(EventController());
 
   @override
   Widget build(BuildContext context) {
-    final events = [
-      // Event(eventName: "Project 1"),
-      // Event(eventName: "Project 2"),
-      // Event(eventName: "Project 3"),
-    ];
-    final events_previous = [
-      // Event(eventName: "Project 4"),
-      // Event(eventName: "Project 5"),
-      // Event(eventName: "Project 6"),
-    ];
+    final events_upcoming = eventController.eventList[0];
+    final events_previous = eventController.eventList[1];
     return GestureDetector(
       child: Stack(
         children: [
@@ -48,9 +43,9 @@ class EventsCreatedPage extends StatelessWidget {
                 ListView.builder(
                   physics: BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: events.length,
+                  itemCount: events_upcoming.length,
                   itemBuilder: (context, index) {
-                    final event = events[index];
+                    final event = events_upcoming[index];
                     return InkWell(
                         onTap: () =>
                             Get.to(() => EventsDetailsPage(event: event)),

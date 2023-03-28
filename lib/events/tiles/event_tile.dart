@@ -9,6 +9,9 @@ class EventTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    DateTime date = event.eventDate.toDate();
+    String dateStr =
+        "${date.day.toString().padLeft(2, "0")}/${date.month.toString().padLeft(2, "0")}/${date.year.toString().padLeft(2, "0")} ${date.hour.toString().padLeft(2, "0")}:${date.minute.toString().padLeft(2, "0")}";
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: Container(
@@ -39,9 +42,9 @@ class EventTile extends StatelessWidget {
               ),
               // child: Image.asset(
               //   "assets/placeholder.png",
-                
-                width: size.width * 0.3,
-                
+
+              width: size.width * 0.3,
+
               // ),
             ),
             SizedBox(width: 20),
@@ -55,19 +58,21 @@ class EventTile extends StatelessWidget {
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   SizedBox(height: 5),
-                  Row(children: [
-                    Icon(
-                      Icons.calendar_today,
-                      color: Colors.grey,
-                      size: 16,
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      event.eventDate,
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                  ],)
-                  ],
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_today,
+                        color: Colors.grey,
+                        size: 16,
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        dateStr,
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
             SizedBox(

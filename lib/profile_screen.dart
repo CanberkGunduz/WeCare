@@ -73,7 +73,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: CircleAvatar(
-                      backgroundColor: Colors.grey[200],
+                      backgroundColor: Colors.grey[300],
                       radius: 80,
                       child: Image.network(
                         user.profilePhoto,

@@ -44,7 +44,6 @@ class AuthController extends GetxController {
     DocumentSnapshot userDoc =
         await firestore.collection("users").doc(uid).get();
     _user = Rx<model.User?>(model.User.fromSnap(userDoc));
-    print(_user.value!.profilePhoto);
   }
 
   void pickImage() async {

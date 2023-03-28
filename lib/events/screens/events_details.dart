@@ -7,21 +7,34 @@ class EventsDetailsPage extends StatelessWidget {
   Event event;
   EventsDetailsPage({Key? key, required this.event}) : super(key: key);
 
-  EventDetailsTabController myTabController = Get.put(EventDetailsTabController());
+  EventDetailsTabController myTabController =
+      Get.put(EventDetailsTabController());
 
   @override
   Widget build(BuildContext context) {
+    DateTime date = event.eventDate.toDate();
+    String dateStr =
+        "${date.day.toString().padLeft(2, "0")}/${date.month.toString().padLeft(2, "0")}/${date.year.toString().padLeft(2, "0")}";
+    String timeStr =
+        "${date.hour.toString().padLeft(2, "0")}:${date.minute.toString().padLeft(2, "0")}";
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[200],
-        title: Text(
-          event.eventName,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
+          backgroundColor: Colors.grey[200],
+          centerTitle: true,
+          title: Text(
+            event.eventName,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+            ),
           ),
-        ),
-      ),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () => Get.back(),
+          )),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         child: Column(
@@ -32,30 +45,31 @@ class EventsDetailsPage extends StatelessWidget {
                 Container(
                   height: Get.size.height * 0.23,
                   // width: Get.size.width,
-                  child: Image.asset("assets/placeholder.png",fit: BoxFit.contain,),
+                  child: Image.asset(
+                    "assets/placeholder.png",
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Time",
+                      timeStr,
                       style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
                     SizedBox(height: 15),
-                    Text("Date",
+                    Text(dateStr,
                         style: TextStyle(fontSize: 16, color: Colors.black)),
-                        SizedBox(height: 15),
-                    Text("Location",
+                    SizedBox(height: 15),
+                    Text(event.eventLocation,
                         style: TextStyle(fontSize: 16, color: Colors.black)),
                   ],
                 ),
               ],
             ),
             SizedBox(height: 20),
-            TabBar(
-              controller: myTabController.controller,
-              tabs: [
+            TabBar(controller: myTabController.controller, tabs: [
               Tab(
                 child: Text(
                   "Description",
@@ -86,15 +100,14 @@ class EventsDetailsPage extends StatelessWidget {
             ]),
             SizedBox(height: 10),
             Expanded(
-              child: TabBarView(
-                controller: myTabController.controller,
-                children: [
-                Text("Description"),
+              child:
+                  TabBarView(controller: myTabController.controller, children: [
+                Text(event.eventDetail),
                 Text("Comments"),
                 Text("Participants"),
               ]),
             ),
-        ],
+          ],
         ),
       ),
     );
