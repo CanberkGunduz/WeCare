@@ -20,6 +20,8 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     User user = authController.user;
     DateTime date = user.dateOfBirth.toDate();
+    String birthdayText =
+        'Birthday: ${date.day.toString().padLeft(2, "0")}/${date.month.toString().padLeft(2, "0")}/${date.year}';
     return Scaffold(
       appBar: AppBar(
         title: const Text('WeCare', style: TextStyle(color: Colors.orange)),
@@ -111,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                'Birthday: ${date.day}/${date.month}/${date.year}',
+                                birthdayText,
                                 style: TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.w400),
                               ),

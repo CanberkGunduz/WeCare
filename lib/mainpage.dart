@@ -13,27 +13,29 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(() => pages[_currentIndex.value]),
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          onTap: (value) => _currentIndex.value = value,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month),
-              label: 'Calendar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: 'Community',
-            ),
-          ],
-          currentIndex: _currentIndex.value,
-          selectedItemColor: Colors.amber[800],
+    return Obx(
+      () => Scaffold(
+        body: pages[_currentIndex.value],
+        bottomNavigationBar: Obx(
+          () => BottomNavigationBar(
+            onTap: (value) => _currentIndex.value = value,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_month),
+                label: 'Calendar',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.people),
+                label: 'Community',
+              ),
+            ],
+            currentIndex: _currentIndex.value,
+            selectedItemColor: Colors.amber[800],
+          ),
         ),
       ),
     );

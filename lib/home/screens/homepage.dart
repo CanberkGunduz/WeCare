@@ -10,6 +10,7 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // authController.setUserData();
     User user = authController.user;
     return SafeArea(
       child: Stack(

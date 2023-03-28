@@ -8,7 +8,7 @@ class EventDetailsTabController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    controller = TabController(vsync: this, length: 3);
+    controller = TabController(vsync: this, length: 4);
     controller.index = 0;
   }
 

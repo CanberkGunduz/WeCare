@@ -13,7 +13,7 @@ class EventTabController extends GetxController
   void onInit() {
     super.onInit();
     controller = TabController(vsync: this, length: 3);
-    controller.index = 1;
+    controller.index = 0;
   }
 
   @override
@@ -25,6 +25,8 @@ class EventTabController extends GetxController
 
 class EventController extends GetxController {
   final Rx<List<List<Event>>> _eventList = Rx<List<List<Event>>>([]);
+  final Rx<List<Map<String, dynamic>>> _comments =
+      Rx<List<Map<String, dynamic>>>([]);
   // Rx<String> sortCriteria = "participants".obs;
   final user = authController.user;
 
@@ -111,6 +113,7 @@ class EventController extends GetxController {
           participants: [],
           eventName: eventName,
           eventDetail: eventDetail,
+          comments: [],
           profilePhoto: user.profilePhoto,
           datePublished: DateTime.now(),
           eventDate: eventDate,
@@ -156,6 +159,95 @@ class EventController extends GetxController {
         e.toString(),
         backgroundColor: Colors.grey,
       );
+      return false;
+    }
+  }
+
+  joinEvent(String id) async {
+    var uid = user.uid;
+    DocumentSnapshot doc = await firestore.collection("events").doc(id).get();
+    if ((doc.data()! as dynamic)["participants"].contains(uid)) {
+      Get.snackbar(
+        "Error Joining The Event",
+        "You are already a participant in this event",
+        backgroundColor: Colors.grey,
+      );
+    } else {
+      Map<String, dynamic> uidNamePhotoScore = {
+        "uid": uid,
+        "name": user.name,
+        "profilePhoto": user.profilePhoto,
+        "score": user.score,
+      };
+      await firestore.collection("events").doc(id).update(
+        {
+          "participants": FieldValue.arrayUnion([uidNamePhotoScore])
+        },
+      );
+      await firestore.collection("users").doc(uid).update(
+        {"joinedEventCount": FieldValue.increment(1)},
+      );
+      Get.snackbar(
+        "Event Joined",
+        "You have successfully joined the event.",
+        backgroundColor: Colors.grey,
+      );
+    }
+  }
+
+  leaveEvent(String id) async {
+    var uid = authController.user.uid;
+    DocumentSnapshot doc = await firestore.collection("events").doc(id).get();
+    if ((doc.data()! as dynamic)["participants"].contains(uid)) {
+      await firestore.collection("events").doc(id).update(
+        {
+          "participants": FieldValue.arrayRemove([uid])
+        },
+      );
+      Get.snackbar(
+        "Event Left",
+        "You have successfully left the event.",
+        backgroundColor: Colors.grey,
+      );
+      await firestore.collection("users").doc(uid).update(
+        {"joinedEventCount": FieldValue.increment(-1)},
+      );
+    } else {
+      Get.snackbar(
+        "Error Leaving The Event",
+        "You are not a participant in this event",
+        backgroundColor: Colors.grey,
+      );
+    }
+  }
+
+  Future<bool> isParticipant(String id) async {
+    var uid = authController.user.uid;
+    DocumentSnapshot doc = await firestore.collection("events").doc(id).get();
+    if ((doc.data()! as dynamic)["participants"].contains(uid)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> isCreator(String id) async {
+    var uid = authController.user.uid;
+    DocumentSnapshot doc = await firestore.collection("events").doc(id).get();
+    if ((doc.data()! as dynamic)["uid"] == uid) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> isEventActive(String id) async {
+    DocumentSnapshot doc = await firestore.collection("events").doc(id).get();
+    DateTime eventDate = (doc.data()! as dynamic)["eventDate"].toDate();
+    DateTime now = DateTime.now();
+    if (eventDate.isAfter(now)) {
+      return true;
+    } else {
       return false;
     }
   }

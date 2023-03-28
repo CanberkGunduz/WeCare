@@ -5,6 +5,7 @@ class Event {
   String eventName;
   String eventDetail;
   String eventLocation;
+  List comments;
   final datePublished;
   var eventDate;
   List participants;
@@ -17,6 +18,7 @@ class Event {
     required this.eventName,
     required this.eventDetail,
     required this.eventLocation,
+    required this.comments,
     required this.datePublished,
     required this.eventDate,
     required this.participants,
@@ -30,6 +32,7 @@ class Event {
         "eventName": eventName,
         "eventDetail": eventDetail,
         "eventLocation": eventLocation,
+        "comments": comments,
         "datePublished": datePublished,
         "eventDate": eventDate,
         "participants": participants,
@@ -45,6 +48,7 @@ class Event {
       eventName: snapshot["eventName"],
       eventDetail: snapshot["eventDetail"],
       eventLocation: snapshot["eventLocation"],
+      comments: snapshot["comments"],
       datePublished: snapshot["datePublished"],
       eventDate: snapshot["eventDate"],
       participants: snapshot["participants"],

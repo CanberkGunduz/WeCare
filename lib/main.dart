@@ -1,13 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gdsc_metu2023/constants.dart';
+import 'package:gdsc_metu2023/events/controllers/event_controller.dart';
 import 'package:get/get.dart';
 import 'authentication/authentication.dart';
 import 'mainpage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((value) {
+  await Firebase.initializeApp().then((value) async {
     Get.put(AuthController());
+
+    try {
+      await authController.setUserData();
+      Get.put(EventController());
+    } catch (e) {
+      authController.signOut();
+    }
   });
   runApp(const MyApp());
 }

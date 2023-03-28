@@ -12,7 +12,7 @@ import '../constants.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-  late Rx<model.User?> _user;
+  late Rx<model.User> _user;
   late Rx<User?> _firebaseuser;
   late Rx<File?> _pickedImage;
   late Rx<String> _profilePhotoUrl;
@@ -20,7 +20,13 @@ class AuthController extends GetxController {
   File? get profilePhoto => _pickedImage.value;
   String get profilePhotoUrl => _profilePhotoUrl.value;
   User get firebaseuser => _firebaseuser.value!;
-  model.User get user => _user.value!;
+  model.User get user => _user.value;
+
+  // @override
+  // void onInit() async {
+  //   super.onInit();
+  //   await setUserData();
+  // }
 
   @override
   void onReady() {
@@ -30,12 +36,12 @@ class AuthController extends GetxController {
     ever(_firebaseuser, _setInitialScreen);
   }
 
-  _setInitialScreen(User? user) {
+  _setInitialScreen(User? user) async {
     if (user == null) {
       Get.offAll(() => LoginPage());
     } else {
+      await setUserData();
       Get.offAll(() => MainPage());
-      setUserData();
     }
   }
 
@@ -43,7 +49,7 @@ class AuthController extends GetxController {
     String uid = firebaseAuth.currentUser!.uid;
     DocumentSnapshot userDoc =
         await firestore.collection("users").doc(uid).get();
-    _user = Rx<model.User?>(model.User.fromSnap(userDoc));
+    _user = Rx<model.User>(model.User.fromSnap(userDoc));
   }
 
   void pickImage() async {
@@ -96,12 +102,18 @@ class AuthController extends GetxController {
         String downloadUrl = await _uploadToStorage(image);
         model.User user = model.User(
           name: username,
+          biography: "",
           profilePhoto: downloadUrl,
           email: email,
           uid: cred.user!.uid,
           gender: gender,
+          score: 0,
           dateOfBirth: dateOfBirth,
           eventPosts: [],
+          friends: [],
+          participatedProjects: [],
+          interests: [],
+          ableToTeach: [],
           activeEventCount: 0,
           joinedEventCount: 0,
         );

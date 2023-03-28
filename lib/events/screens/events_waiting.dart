@@ -7,14 +7,13 @@ import 'package:get/get.dart';
 import '../model/event_model.dart';
 import 'events_details.dart';
 
-class EventsUpcomingPage extends StatelessWidget {
-  EventsUpcomingPage({super.key});
+class EventsWaitingPage extends StatelessWidget {
+  EventsWaitingPage({super.key});
 
   EventController eventController = Get.put(EventController());
 
   @override
   Widget build(BuildContext context) {
-    final events_upcoming = eventController.eventList[0];
     return GestureDetector(
       child: Stack(
         children: [
@@ -26,25 +25,25 @@ class EventsUpcomingPage extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 25,
-                    ),
-                    Text(
-                      "Upcoming",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: 25,
+                //     ),
+                //     Text(
+                //       "Past",
+                //       style:
+                //           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                //     ),
+                //   ],
+                // ),
                 // SizedBox(height: 10,),
                 ListView.builder(
                   physics: BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: events_upcoming.length,
+                  itemCount: eventController.eventList[1].length,
                   itemBuilder: (context, index) {
-                    final event = events_upcoming[index];
+                    final event = eventController.eventList[1][index];
                     return InkWell(
                         onTap: () =>
                             Get.to(() => EventsDetailsPage(event: event)),
