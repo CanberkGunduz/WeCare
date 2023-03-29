@@ -5,6 +5,11 @@ class Event {
   String eventName;
   String eventDetail;
   String eventLocation;
+  String eventPhoto;
+  List goals;
+  List activities;
+  List categories;
+  bool isLocked;
   List comments;
   final datePublished;
   var eventDate;
@@ -18,6 +23,11 @@ class Event {
     required this.eventName,
     required this.eventDetail,
     required this.eventLocation,
+    required this.eventPhoto,
+    required this.goals,
+    required this.activities,
+    required this.categories,
+    required this.isLocked,
     required this.comments,
     required this.datePublished,
     required this.eventDate,
@@ -32,6 +42,11 @@ class Event {
         "eventName": eventName,
         "eventDetail": eventDetail,
         "eventLocation": eventLocation,
+        "eventPhoto": eventPhoto,
+        "goals": goals,
+        "activities": activities,
+        "categories": categories,
+        "isLocked": isLocked,
         "comments": comments,
         "datePublished": datePublished,
         "eventDate": eventDate,
@@ -48,6 +63,11 @@ class Event {
       eventName: snapshot["eventName"],
       eventDetail: snapshot["eventDetail"],
       eventLocation: snapshot["eventLocation"],
+      eventPhoto: snapshot["eventPhoto"],
+      goals: snapshot["goals"],
+      categories: snapshot["categories"],
+      activities: snapshot["activities"],
+      isLocked: snapshot["isLocked"],
       comments: snapshot["comments"],
       datePublished: snapshot["datePublished"],
       eventDate: snapshot["eventDate"],

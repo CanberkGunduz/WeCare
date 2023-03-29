@@ -27,21 +27,16 @@ class EventCommentController extends GetxController {
 
   List<Comment> get replies => _replies.value;
 
-  String _postId = "";
+  String _eventId = "";
 
-  updatePostId(String id) {
-    _postId = id;
+  updateEventId(String id) {
+    _eventId = id;
     getComment();
   }
 
   getComment() async {
     _comments.bindStream(
-      firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .snapshots()
-          .map(
+      firestore.collection("events").doc(_eventId).collection("comments").snapshots().map(
         (QuerySnapshot query) {
           List<Comment> retValue = [];
           for (var element in query.docs) {
@@ -55,14 +50,7 @@ class EventCommentController extends GetxController {
 
   getReply(String id) async {
     _replies.bindStream(
-      firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .doc(id)
-          .collection("replies")
-          .snapshots()
-          .map(
+      firestore.collection("events").doc(_eventId).collection("comments").doc(id).collection("replies").snapshots().map(
         (QuerySnapshot query) {
           List<Comment> retValue = [];
           for (var element in query.docs) {
@@ -85,43 +73,26 @@ class EventCommentController extends GetxController {
   }
 
   void sortByNewest() {
-    final sortedList = _comments.value
-      ..sort((a, b) => b.datePublished.compareTo(a.datePublished));
+    final sortedList = _comments.value..sort((a, b) => b.datePublished.compareTo(a.datePublished));
     _comments.value = sortedList;
   }
 
   void sortByOldest() {
-    final sortedList = _comments.value
-      ..sort((a, b) => a.datePublished.compareTo(b.datePublished));
+    final sortedList = _comments.value..sort((a, b) => a.datePublished.compareTo(b.datePublished));
     _comments.value = sortedList;
   }
 
   likeComment(String id) async {
     var uid = authController.user.uid;
-    DocumentSnapshot doc = await firestore
-        .collection("posts")
-        .doc(_postId)
-        .collection("comments")
-        .doc(id)
-        .get();
+    DocumentSnapshot doc = await firestore.collection("events").doc(_eventId).collection("comments").doc(id).get();
     if ((doc.data()! as dynamic)["likedUsers"].contains(uid)) {
-      await firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .doc(id)
-          .update(
+      await firestore.collection("events").doc(_eventId).collection("comments").doc(id).update(
         {
           "likedUsers": FieldValue.arrayRemove([uid])
         },
       );
     } else {
-      await firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .doc(id)
-          .update(
+      await firestore.collection("events").doc(_eventId).collection("comments").doc(id).update(
         {
           "likedUsers": FieldValue.arrayUnion([uid])
         },
@@ -131,30 +102,15 @@ class EventCommentController extends GetxController {
 
   neutralizeComment(String id) async {
     var uid = authController.user.uid;
-    DocumentSnapshot doc = await firestore
-        .collection("posts")
-        .doc(_postId)
-        .collection("comments")
-        .doc(id)
-        .get();
+    DocumentSnapshot doc = await firestore.collection("events").doc(_eventId).collection("comments").doc(id).get();
     if ((doc.data()! as dynamic)["likedUsers"].contains(uid)) {
-      await firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .doc(id)
-          .update(
+      await firestore.collection("events").doc(_eventId).collection("comments").doc(id).update(
         {
           "likedUsers": FieldValue.arrayRemove([uid])
         },
       );
     } else if ((doc.data()! as dynamic)["dislikedUsers"].contains(uid)) {
-      await firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .doc(id)
-          .update(
+      await firestore.collection("events").doc(_eventId).collection("comments").doc(id).update(
         {
           "dislikedUsers": FieldValue.arrayRemove([uid])
         },
@@ -164,30 +120,15 @@ class EventCommentController extends GetxController {
 
   dislikeComment(String id) async {
     var uid = authController.user.uid;
-    DocumentSnapshot doc = await firestore
-        .collection("posts")
-        .doc(_postId)
-        .collection("comments")
-        .doc(id)
-        .get();
+    DocumentSnapshot doc = await firestore.collection("events").doc(_eventId).collection("comments").doc(id).get();
     if ((doc.data()! as dynamic)["dislikedUsers"].contains(uid)) {
-      await firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .doc(id)
-          .update(
+      await firestore.collection("events").doc(_eventId).collection("comments").doc(id).update(
         {
           "dislikedUsers": FieldValue.arrayRemove([uid])
         },
       );
     } else {
-      await firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .doc(id)
-          .update(
+      await firestore.collection("events").doc(_eventId).collection("comments").doc(id).update(
         {
           "dislikedUsers": FieldValue.arrayUnion([uid])
         },
@@ -205,11 +146,7 @@ class EventCommentController extends GetxController {
             backgroundColor: Colors.grey,
           );
         } else {
-          var allDocs = await firestore
-              .collection("posts")
-              .doc(_postId)
-              .collection("comments")
-              .get();
+          var allDocs = await firestore.collection("events").doc(_eventId).collection("comments").get();
           var id = uuid.v1();
 
           Comment comment = Comment(
@@ -223,15 +160,11 @@ class EventCommentController extends GetxController {
             id: id,
             replyCount: 0,
           );
-          await firestore
-              .collection("posts")
-              .doc(_postId)
-              .collection("comments")
-              .doc(id)
-              .set(comment.toJson());
-          await firestore.collection("posts").doc(_postId).update({
+          await firestore.collection("events").doc(_eventId).collection("comments").doc(id).set(comment.toJson());
+          await firestore.collection("events").doc(_eventId).update({
             "commentCount": FieldValue.increment(1),
           });
+          Get.snackbar("Success", "Comment Posted", backgroundColor: Colors.grey);
         }
       }
     } catch (e) {
@@ -245,13 +178,8 @@ class EventCommentController extends GetxController {
 
   deleteComment(String id) async {
     try {
-      await firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .doc(id)
-          .delete();
-      await firestore.collection("posts").doc(_postId).update({
+      await firestore.collection("events").doc(_eventId).collection("comments").doc(id).delete();
+      await firestore.collection("events").doc(_eventId).update({
         "commentCount": FieldValue.increment(-1),
       });
     } catch (e) {
@@ -267,11 +195,7 @@ class EventCommentController extends GetxController {
     try {
       final userId = authController.user.uid;
 
-      final doc = firestore
-          .collection("posts")
-          .doc(_postId)
-          .collection("comments")
-          .doc(id);
+      final doc = firestore.collection("events").doc(_eventId).collection("comments").doc(id);
 
       final snapshot = await doc.get();
 
@@ -295,10 +219,7 @@ class EventCommentController extends GetxController {
           }
         }
         final Map<String, dynamic> reportedBy = data["reportedBy"] ?? {};
-        reportedBy[DateTime.now().toIso8601String()] = {
-          "uid": userId,
-          "reason": reason
-        };
+        reportedBy[DateTime.now().toIso8601String()] = {"uid": userId, "reason": reason};
         final totalReportCount = (data["totalReportCount"] ?? 0) + 1;
 
         await doc.update({
@@ -324,8 +245,8 @@ class EventCommentController extends GetxController {
     try {
       if (commentText.isNotEmpty) {
         var allDocs = await firestore
-            .collection("posts")
-            .doc(_postId)
+            .collection("events")
+            .doc(_eventId)
             .collection("comments")
             .doc(id)
             .collection("replies")
@@ -345,22 +266,17 @@ class EventCommentController extends GetxController {
           replyCount: 0,
         );
         await firestore
-            .collection("posts")
-            .doc(_postId)
+            .collection("events")
+            .doc(_eventId)
             .collection("comments")
             .doc(id)
             .collection("replies")
             .doc(replyId)
             .set(comment.toJson());
-        await firestore.collection("posts").doc(_postId).update({
+        await firestore.collection("events").doc(_eventId).update({
           "commentCount": FieldValue.increment(1),
         });
-        await firestore
-            .collection("posts")
-            .doc(_postId)
-            .collection("comments")
-            .doc(id)
-            .update({
+        await firestore.collection("events").doc(_eventId).collection("comments").doc(id).update({
           "replyCount": FieldValue.increment(1),
         });
       }

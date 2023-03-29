@@ -14,8 +14,6 @@ class EventsCreatedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final events_upcoming = eventController.eventList[0];
-    final events_previous = eventController.eventList[1];
     return GestureDetector(
       child: Stack(
         children: [
@@ -27,28 +25,15 @@ class EventsCreatedPage extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 25,
-                    ),
-                    Text(
-                      "Upcoming",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
                 // SizedBox(height: 10,),
                 ListView.builder(
                   physics: BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: events_upcoming.length,
+                  itemCount: eventController.eventList[1].length,
                   itemBuilder: (context, index) {
-                    final event = events_upcoming[index];
+                    final event = eventController.eventList[1][index];
                     return InkWell(
-                        onTap: () =>
-                            Get.to(() => EventsDetailsPage(event: event)),
+                        onTap: () => Get.to(() => EventsDetailsPage(event: event)),
                         child: EventTile(
                           event: event,
                         ));
@@ -56,33 +41,6 @@ class EventsCreatedPage extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 20,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 25,
-                    ),
-                    Text(
-                      "Previous",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                // SizedBox(height: 10,),
-                ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: events_previous.length,
-                  itemBuilder: (context, index) {
-                    final event = events_previous[index];
-                    return InkWell(
-                        onTap: () =>
-                            Get.to(() => EventsDetailsPage(event: event)),
-                        child: EventTile(
-                          event: event,
-                        ));
-                  },
                 ),
               ],
             ),

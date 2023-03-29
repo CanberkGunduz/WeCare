@@ -42,12 +42,11 @@ class EventsParticipatedPage extends StatelessWidget {
                   ListView.builder(
                     physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: eventController.eventList[0].length,
+                    itemCount: eventController.eventList[3].length,
                     itemBuilder: (context, index) {
-                      final event = eventController.eventList[0][index];
+                      final event = eventController.eventList[3][index];
                       return InkWell(
-                          onTap: () =>
-                              Get.to(() => EventsDetailsPage(event: event)),
+                          onTap: () => Get.to(() => EventsDetailsPage(event: event)),
                           child: EventTile(
                             event: event,
                           ));

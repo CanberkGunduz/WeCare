@@ -41,12 +41,11 @@ class EventsWaitingPage extends StatelessWidget {
                 ListView.builder(
                   physics: BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: eventController.eventList[1].length,
+                  itemCount: eventController.eventList[2].length,
                   itemBuilder: (context, index) {
-                    final event = eventController.eventList[1][index];
+                    final event = eventController.eventList[2][index];
                     return InkWell(
-                        onTap: () =>
-                            Get.to(() => EventsDetailsPage(event: event)),
+                        onTap: () => Get.to(() => EventsDetailsPage(event: event)),
                         child: EventTile(
                           event: event,
                         ));

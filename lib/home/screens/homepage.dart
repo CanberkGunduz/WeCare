@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gdsc_metu2023/constants.dart';
+import 'package:gdsc_metu2023/events/screens/events_feed.dart';
 import 'package:gdsc_metu2023/profile_screen.dart';
 import 'package:get/get.dart';
 import '../../authentication/user_model.dart';
@@ -61,15 +62,12 @@ class Homepage extends StatelessWidget {
                         child: Image.network(
                           user.profilePhoto,
                           fit: BoxFit.contain,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent? loadingProgress) {
+                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                             if (loadingProgress == null) return child;
                             return Center(
                               child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                                     : null,
                               ),
                             );
@@ -94,7 +92,7 @@ class Homepage extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    authController.signOut();
+                    Get.to(() => EventFeed());
                   },
                   icon: Icon(
                     Icons.menu,
@@ -133,8 +131,7 @@ class notif_messages_view extends StatelessWidget {
                     ),
                     child: Text(
                       "Messages",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                     ),
                   ),
                   Container(
@@ -146,8 +143,7 @@ class notif_messages_view extends StatelessWidget {
                     ),
                     child: Text(
                       "Notifications",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -223,16 +219,10 @@ class profile_view extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Name Surname",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w400)),
-                      Text("Birth Date",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w400)),
+                      Text("Name Surname", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
+                      Text("Birth Date", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
                       SizedBox(height: 16),
-                      Text("Score:",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w400)),
+                      Text("Score:", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
                     ],
                   ),
                   SizedBox(width: 36),
@@ -248,14 +238,11 @@ class profile_view extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(width: 16),
-                  Text("12 Friends",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
+                  Text("12 Friends", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
                 ],
               ),
               SizedBox(height: 16),
-              Text("Interests",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
+              Text("Interests", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
               SizedBox(height: 16),
               Container(
                 height: Get.height * 0.18,
@@ -308,8 +295,7 @@ class profile_view extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 8),
-              Text("Able To Teach",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
+              Text("Able To Teach", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
               SizedBox(height: 16),
               Container(
                 height: Get.height * 0.3,
@@ -390,11 +376,8 @@ class main_home_view extends StatelessWidget {
           onPressed: () {},
         ),
         centerTitle: true,
-        title: const Text("GDSC 2023",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.w400)),
+        title:
+            const Text("GDSC 2023", style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.w400)),
         actions: [
           IconButton(
             color: Colors.grey,
@@ -450,8 +433,7 @@ class main_home_view extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Rest Home",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              style: TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
                         ),
@@ -464,8 +446,7 @@ class main_home_view extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Shelter",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              style: TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
                         ),
@@ -478,8 +459,7 @@ class main_home_view extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Garbage",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              style: TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
                         ),
@@ -498,8 +478,7 @@ class main_home_view extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Rest Home",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              style: TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
                         ),
@@ -512,8 +491,7 @@ class main_home_view extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Rest Home",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              style: TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
                         ),
@@ -526,8 +504,7 @@ class main_home_view extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Rest Home",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
+                              style: TextStyle(fontSize: 20, color: Colors.black),
                             ),
                           ),
                         ),

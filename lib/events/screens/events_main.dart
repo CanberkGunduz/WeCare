@@ -26,8 +26,7 @@ class EventMainPage extends StatelessWidget {
             ),
             onTap: (value) {
               myTabController.controller.index = value;
-              pageController.animateToPage(value,
-                  duration: Duration(milliseconds: 300), curve: Curves.ease);
+              pageController.animateToPage(value, duration: Duration(milliseconds: 300), curve: Curves.ease);
             },
             controller: myTabController.controller,
             tabs: [

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../constants.dart';
 import '../controllers/event_controller.dart';
 
@@ -9,8 +12,10 @@ class EventCreateScreen extends StatelessWidget {
   final EventController eventController = Get.put(EventController());
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _eventDetailsController = TextEditingController();
-  final TextEditingController _eventLocationController =
-      TextEditingController();
+  final TextEditingController _eventLocationController = TextEditingController();
+  final TextEditingController _eventActivitiesController = TextEditingController();
+  final TextEditingController _eventGoalsController = TextEditingController();
+  final TextEditingController _eventCategoriesController = TextEditingController();
   Rx<DateTime> date = DateTime.now().obs;
   Rx<TimeOfDay> time = TimeOfDay.now().obs;
 
@@ -68,6 +73,10 @@ class EventCreateScreen extends StatelessWidget {
                         _eventNameController.text,
                         _eventDetailsController.text,
                         _eventLocationController.text,
+                        _eventGoalsController.text.split("\n"),
+                        _eventActivitiesController.text.split("\n"),
+                        _eventCategoriesController.text.split("\n"),
+                        eventController.eventPhoto,
                         newDate,
                       );
                       if (created) {
@@ -91,8 +100,7 @@ class EventCreateScreen extends StatelessWidget {
                         SizedBox(height: 10),
                         Text("Event Name: ${_eventNameController.text}"),
                         Text("Event Details: ${_eventDetailsController.text}"),
-                        Text(
-                            "Takes Place At: ${_eventLocationController.text}"),
+                        Text("Takes Place At: ${_eventLocationController.text}"),
                       ],
                     ),
                   );
@@ -120,7 +128,7 @@ class EventCreateScreen extends StatelessWidget {
           physics: ClampingScrollPhysics(),
           child: Column(
             children: [
-              SizedBox(height: 25),
+              SizedBox(height: 15),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -164,7 +172,7 @@ class EventCreateScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 25,
+                height: 15,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -180,7 +188,7 @@ class EventCreateScreen extends StatelessWidget {
                 ),
                 child: TextFormField(
                   controller: _eventDetailsController,
-                  maxLines: 4,
+                  maxLines: 2,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -210,7 +218,145 @@ class EventCreateScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 25,
+                height: 15,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  controller: _eventGoalsController,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white,
+                    hintText: "Goals",
+                    hintStyle: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(0)),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  controller: _eventActivitiesController,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white,
+                    hintText: "Activities",
+                    hintStyle: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(0)),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  controller: _eventCategoriesController,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white,
+                    hintText: "Categories",
+                    hintStyle: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(0)),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -226,7 +372,7 @@ class EventCreateScreen extends StatelessWidget {
                 ),
                 child: TextFormField(
                   controller: _eventLocationController,
-                  maxLines: 4,
+                  maxLines: 2,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -256,7 +402,7 @@ class EventCreateScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 25,
+                height: 15,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -279,8 +425,7 @@ class EventCreateScreen extends StatelessWidget {
                       firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 90)),
                     ))!;
-                    time.value = (await showTimePicker(
-                        context: context, initialTime: TimeOfDay.now()))!;
+                    time.value = (await showTimePicker(context: context, initialTime: TimeOfDay.now()))!;
                   },
                   child: Container(
                     height: 50,
@@ -318,7 +463,34 @@ class EventCreateScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: 15,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: InkWell(
+                  onTap: () async {
+                    await eventController.pickImageGallery();
+                  },
+                  child: Icon(
+                    Icons.camera_alt_outlined,
+                    size: 36,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -364,6 +536,10 @@ class EventCreateScreen extends StatelessWidget {
                             _eventNameController.text,
                             _eventDetailsController.text,
                             _eventLocationController.text,
+                            _eventGoalsController.text.split("\n"),
+                            _eventActivitiesController.text.split("\n"),
+                            _eventCategoriesController.text.split("\n"),
+                            eventController.eventPhoto,
                             newDate,
                           );
                           if (created) {
@@ -387,10 +563,8 @@ class EventCreateScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 10),
                             Text("Event Name: ${_eventNameController.text}"),
-                            Text(
-                                "Event Details: ${_eventDetailsController.text}"),
-                            Text(
-                                "Takes Place At: ${_eventLocationController.text}"),
+                            Text("Event Details: ${_eventDetailsController.text}"),
+                            Text("Takes Place At: ${_eventLocationController.text}"),
                           ],
                         ),
                       );
