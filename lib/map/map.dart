@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -20,21 +21,6 @@ class MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(FontAwesomeIcons.arrowLeft),
-            onPressed: () {
-              //
-            }),
-        title: Text(""),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(FontAwesomeIcons.search),
-              onPressed: () {
-                //
-              }),
-        ],
-      ),
       body: Stack(
         children: <Widget>[
           _buildGoogleMap(context),
@@ -120,6 +106,14 @@ class MapState extends State<Map> {
     );
   }
 
+  Future<LatLng> _getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    return LatLng(position.latitude, position.longitude);
+  }
+
+//solve current position problem
   Widget _buildGoogleMap(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
@@ -131,9 +125,7 @@ class MapState extends State<Map> {
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
-        markers: {
-          ankara,
-        },
+        markers: Set<Marker>.of(createMarkers()),
       ),
     );
   }
@@ -147,6 +139,22 @@ class MapState extends State<Map> {
       bearing: 45.0,
     )));
   }
+}
+
+List<Marker> createMarkers() {
+  var data = [
+    {'name': 'Marker 1', 'lat': 37.77483, 'lng': -122.41942},
+    {'name': 'Marker 2', 'lat': 37.78527, 'lng': -122.40617},
+    {'name': 'Marker 3', 'lat': 37.76265, 'lng': -122.41417},
+  ];
+
+  return data
+      .map((item) => Marker(
+            markerId: MarkerId(item['name'] as String),
+            position: LatLng(item['lat'] as double, item['lng'] as double),
+            infoWindow: InfoWindow(title: item['name'] as String),
+          ))
+      .toList();
 }
 
 Marker ankara = Marker(
