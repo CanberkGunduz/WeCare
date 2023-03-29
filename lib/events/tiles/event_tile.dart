@@ -149,8 +149,8 @@ class EventTileUrgent extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 3,
-                  blurRadius: 5,
+                  spreadRadius: 0.5,
+                  blurRadius: 1,
                   offset: Offset(0, 0),
                 ),
               ],
@@ -243,7 +243,7 @@ class EventTileWithCategories extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.contain,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 // height: size.height * 0.15,
                 width: size.width * 0.95,
                 decoration: BoxDecoration(
@@ -329,7 +329,11 @@ class EventTileWithCategories extends StatelessWidget {
                                     height: 25,
                                     width: 60,
                                     child: ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Get.to(() => EventsDetailsPage(
+                                              event: event,
+                                            ));
+                                      },
                                       child: Text(
                                         "Join",
                                         style: TextStyle(fontSize: 14, color: Colors.white),
