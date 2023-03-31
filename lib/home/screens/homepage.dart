@@ -54,28 +54,38 @@ class Homepage extends StatelessWidget {
                   ),
                   SizedBox(width: 10),
                   InkWell(
-                    onTap: () => Get.to(() => ProfileScreen()),
-                    child: ClipOval(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey[300],
-                        radius: 36,
-                        child: Image.network(
-                          user.profilePhoto,
-                          fit: BoxFit.contain,
-                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
+                      onTap: () => Get.to(() => ProfileScreen(
+                            user: user,
+                          )),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.orange,
+                            width: 2,
+                          ),
                         ),
-                      ),
-                    ),
-                  )
+                        child: ClipOval(
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey[300],
+                            radius: 36,
+                            child: Image.network(
+                              user.profilePhoto,
+                              fit: BoxFit.contain,
+                              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ))
                 ],
               ),
             ),
@@ -92,7 +102,7 @@ class Homepage extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    Get.to(() => EventFeed());
+                    Get.to(() => EventFeed(), duration: Duration(milliseconds: 500), transition: Transition.topLevel);
                   },
                   icon: Icon(
                     Icons.menu,

@@ -44,6 +44,10 @@ dependencies:
   uuid: ^3.0.7
   firebase_core_platform_interface: ^4.5.3
   table_calendar: ^3.0.8
+  loader_overlay: ^2.1.0
+  flutter_spinkit: ^5.1.0
+  country_code_picker: ^3.0.0
+  country_picker: ^2.0.20
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +74,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/placeholder.png
+    - assets/logo.png
+    - assets/slogan.png
+    - assets/WeCare.png
+    - assets/onboard.png
+    - assets/intro2.png
+    - assets/intro3.png
+    - assets/intro4.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

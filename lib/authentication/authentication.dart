@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:gdsc_metu2023/authentication/login_screen.dart';
 import 'package:gdsc_metu2023/mainpage.dart';
+import 'package:gdsc_metu2023/onboard/new_welcome.dart';
+import 'package:gdsc_metu2023/onboard/user_welcome.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'user_model.dart' as model;
@@ -13,6 +15,7 @@ import '../constants.dart';
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<model.User> _user;
+  late Rx<model.User> _foundUser;
   late Rx<User?> _firebaseuser;
   late Rx<File?> _pickedImage;
   late Rx<String> _profilePhotoUrl;
@@ -21,6 +24,7 @@ class AuthController extends GetxController {
   String get profilePhotoUrl => _profilePhotoUrl.value;
   User get firebaseuser => _firebaseuser.value!;
   model.User get user => _user.value;
+  model.User get finduser => _foundUser.value;
 
   // @override
   // void onInit() async {
@@ -37,38 +41,49 @@ class AuthController extends GetxController {
   }
 
   _setInitialScreen(User? user) async {
+    await Future.delayed(Duration(seconds: 2));
     if (user == null) {
-      Get.offAll(() => LoginPage());
+      Get.offAll(() => NewUserWelcomePage(), transition: Transition.fadeIn, duration: Duration(milliseconds: 500));
     } else {
       await setUserData();
-      Get.offAll(() => MainPage());
+      Get.offAll(() => UserWelcomePage(), transition: Transition.fadeIn, duration: Duration(milliseconds: 500));
+      await Future.delayed(Duration(seconds: 2));
+      Get.offAll(() => MainPage(), transition: Transition.fadeIn, duration: Duration(milliseconds: 500));
     }
   }
 
   setUserData() async {
     String uid = firebaseAuth.currentUser!.uid;
-    DocumentSnapshot userDoc =
-        await firestore.collection("users").doc(uid).get();
+    DocumentSnapshot userDoc = await firestore.collection("users").doc(uid).get();
     _user = Rx<model.User>(model.User.fromSnap(userDoc));
   }
 
-  void pickImage() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future pickImage() async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      Get.snackbar("Profile Picture",
-          "You have successfully selected your profile picture");
+      Get.snackbar("Profile Picture", "You have successfully selected your profile picture");
     }
     _pickedImage = Rx<File?>(File(pickedImage!.path));
     _profilePhotoUrl = Rx<String>(pickedImage.path);
   }
 
+  Future pickImageCamera() async {
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (pickedImage != null) {
+      Get.snackbar("Profile Picture", "You have successfully selected your profile picture");
+    }
+    _pickedImage = Rx<File?>(File(pickedImage!.path));
+    _profilePhotoUrl = Rx<String>(pickedImage.path);
+  }
+
+  findUser(String uid) async {
+    DocumentSnapshot userDoc = await firestore.collection("users").doc(uid).get();
+    _foundUser = Rx<model.User>(model.User.fromSnap(userDoc));
+  }
+
   // upload to firebase storage
   Future<String> _uploadToStorage(File image) async {
-    Reference ref = firebaseStorage
-        .ref()
-        .child("profilePics")
-        .child(firebaseAuth.currentUser!.uid);
+    Reference ref = firebaseStorage.ref().child("profilePics").child(firebaseAuth.currentUser!.uid);
 
     UploadTask uploadTask = ref.putFile(image);
     TaskSnapshot snap = await uploadTask;
@@ -77,8 +92,20 @@ class AuthController extends GetxController {
   }
 
   // registering the user
-  Future<bool> registerUser(String username, String email, String password,
-      String gender, DateTime dateOfBirth, File? image) async {
+  Future<bool> registerUser(
+      String username,
+      String email,
+      String password,
+      String gender,
+      DateTime dateOfBirth,
+      File? image,
+      List interests,
+      List skills,
+      String countryName,
+      String countryPhone,
+      String countryFlagEmoji,
+      String phoneNumber,
+      String profession) async {
     try {
       if (username.isNotEmpty &&
           email.isNotEmpty &&
@@ -112,18 +139,21 @@ class AuthController extends GetxController {
           eventPosts: [],
           friends: [],
           participatedProjects: [],
-          interests: [],
-          ableToTeach: [],
+          interests: interests,
+          skills: skills,
+          countryName: countryName,
+          countryPhone: countryPhone,
+          countryFlagEmoji: countryFlagEmoji,
+          phoneNumber: phoneNumber,
+          profession: profession,
           activeEventCount: 0,
           joinedEventCount: 0,
         );
-        await firestore
-            .collection("users")
-            .doc(cred.user!.uid)
-            .set(user.toJson());
+        await firestore.collection("users").doc(cred.user!.uid).set(user.toJson());
+        await Future.delayed(Duration(seconds: 1));
         await setUserData();
         print("set user");
-
+        loginUser(email, password);
         return true;
       } else {
         Get.snackbar(
@@ -141,8 +171,7 @@ class AuthController extends GetxController {
   void loginUser(String email, String password) async {
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
-        await firebaseAuth.signInWithEmailAndPassword(
-            email: email, password: password);
+        await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
         print("log success");
       } else {
         Get.snackbar(

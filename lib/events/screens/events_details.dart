@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gdsc_metu2023/authentication/user_model.dart';
 import 'package:gdsc_metu2023/constants.dart';
 import 'package:gdsc_metu2023/events/controllers/event_controller.dart';
 import 'package:gdsc_metu2023/events/controllers/event_details_controller.dart';
 import 'package:gdsc_metu2023/events/controllers/event_participant_controller.dart';
+import 'package:gdsc_metu2023/profile_screen.dart';
 import 'package:get/get.dart';
 import '../controllers/event_comment_controller.dart';
 import '../controllers/event_lock_controller.dart';
@@ -19,7 +21,6 @@ class EventsDetailsPage extends StatelessWidget {
   EventCommentController commentController = Get.put(EventCommentController());
   TextEditingController _commentController = TextEditingController();
   TextEditingController _reportController = TextEditingController();
-
   Rx<bool> isParticipant = false.obs;
   // RxList<bool> isLocked = [false].obs;
 
@@ -646,37 +647,46 @@ class ParticipantsTab extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 28,
-                    backgroundImage: NetworkImage(event.profilePhoto),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Owner of the project",
-                        style: TextStyle(color: Colors.grey[600], fontSize: 14, fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        event.username,
-                        style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+          child: InkWell(
+            onTap: () async {
+              await authController.findUser(event.uid);
+              User foundUser = authController.finduser;
+              Get.to(() => ProfileScreenVisitor(
+                    user: foundUser,
+                  ));
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 28,
+                      backgroundImage: NetworkImage(event.profilePhoto),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Owner of the project",
+                          style: TextStyle(color: Colors.grey[600], fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          event.username,
+                          style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         Divider(
@@ -689,40 +699,50 @@ class ParticipantsTab extends StatelessWidget {
             shrinkWrap: true,
             itemCount: participantController.participants.length,
             itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundImage: NetworkImage(participantController.participants[index]["profilePhoto"]),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              participantController.participants[index]["name"],
-                              style: TextStyle(color: Colors.black, fontSize: 12),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "Score: ${participantController.participants[index]["score"].toString()}",
-                          style: TextStyle(color: Colors.black, fontSize: 12),
-                        )
-                      ],
+              return InkWell(
+                onTap: () async {
+                  await authController.findUser(participantController.participants[index]["uid"]);
+                  User foundUser = authController.finduser;
+                  Get.to(() => ProfileScreenVisitor(
+                        user: foundUser,
+                      ));
+                },
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundImage:
+                                    NetworkImage(participantController.participants[index]["profilePhoto"]),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                participantController.participants[index]["name"],
+                                style: TextStyle(color: Colors.black, fontSize: 12),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            "Score: ${participantController.participants[index]["score"].toString()}",
+                            style: TextStyle(color: Colors.black, fontSize: 12),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Divider(
-                    color: Colors.grey[400],
-                    thickness: 2,
-                  )
-                ],
+                    Divider(
+                      color: Colors.grey[400],
+                      thickness: 2,
+                    )
+                  ],
+                ),
               );
             },
           ),

@@ -83,6 +83,9 @@ class EventCreateScreen extends StatelessWidget {
                         _eventNameController.clear();
                         _eventDetailsController.clear();
                         _eventLocationController.clear();
+                        _eventGoalsController.clear();
+                        _eventActivitiesController.clear();
+                        _eventCategoriesController.clear();
                         FocusScope.of(context).unfocus();
                       }
                     },
@@ -546,6 +549,9 @@ class EventCreateScreen extends StatelessWidget {
                             _eventNameController.clear();
                             _eventDetailsController.clear();
                             _eventLocationController.clear();
+                            _eventGoalsController.clear();
+                            _eventActivitiesController.clear();
+                            _eventCategoriesController.clear();
                             FocusScope.of(context).unfocus();
                           }
                           // Get.back();

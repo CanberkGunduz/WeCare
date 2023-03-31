@@ -10,11 +10,12 @@ class EventMainPage extends StatelessWidget {
   EventMainPage({Key? key}) : super(key: key);
 
   final EventTabController myTabController = Get.put(EventTabController());
-  final PageController pageController = PageController(initialPage: 0);
+  final EventController eventController = Get.put(EventController());
 
   @override
   Widget build(BuildContext context) {
     RxInt index = myTabController.controller.index.obs;
+    final PageController pageController = PageController(initialPage: index.value);
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(

@@ -13,7 +13,12 @@ class User {
   List friends;
   List participatedProjects;
   List interests;
-  List ableToTeach;
+  List skills;
+  String countryName;
+  String countryPhone;
+  String countryFlagEmoji;
+  String phoneNumber;
+  String profession;
   int activeEventCount;
   int joinedEventCount;
 
@@ -30,7 +35,12 @@ class User {
     required this.friends,
     required this.participatedProjects,
     required this.interests,
-    required this.ableToTeach,
+    required this.skills,
+    required this.countryName,
+    required this.countryPhone,
+    required this.countryFlagEmoji,
+    required this.phoneNumber,
+    required this.profession,
     required this.activeEventCount,
     required this.joinedEventCount,
   });
@@ -48,7 +58,12 @@ class User {
         "friends": friends,
         "participatedProjects": participatedProjects,
         "interests": interests,
-        "ableToTeach": ableToTeach,
+        "skills": skills,
+        "countryName": countryName,
+        "countryPhone": countryPhone,
+        "countryFlagEmoji": countryFlagEmoji,
+        "phoneNumber": phoneNumber,
+        "profession": profession,
         "activeEventCount": activeEventCount,
         "joinedEventCount": joinedEventCount,
       };
@@ -68,7 +83,12 @@ class User {
       friends: snapshot["friends"],
       participatedProjects: snapshot["participatedProjects"],
       interests: snapshot["interests"],
-      ableToTeach: snapshot["ableToTeach"],
+      skills: snapshot["skills"],
+      countryName: snapshot["countryName"],
+      countryPhone: snapshot["countryPhone"],
+      countryFlagEmoji: snapshot["countryFlagEmoji"],
+      phoneNumber: snapshot["phoneNumber"],
+      profession: snapshot["profession"],
       activeEventCount: snapshot["activeEventCount"],
       joinedEventCount: snapshot["joinedEventCount"],
     );

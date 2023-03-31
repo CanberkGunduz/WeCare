@@ -25,8 +25,8 @@ class EventFeed extends StatelessWidget {
           )
         ],
         title: Text(
-          "Search Bar",
-          style: TextStyle(color: Colors.black),
+          "WeCare",
+          style: TextStyle(color: Colors.orange),
         ),
         centerTitle: true,
         leading: IconButton(

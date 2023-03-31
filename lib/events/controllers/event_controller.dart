@@ -72,6 +72,7 @@ class EventController extends GetxController {
                 joinedUpcomingEvents.add(event);
               } else {
                 joinedPastEvents.add(event);
+                user.participatedProjects.add(event.id);
               }
             }
             if (eventdate.isBefore(now.add(Duration(days: 7)))) {
