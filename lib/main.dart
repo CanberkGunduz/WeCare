@@ -4,7 +4,8 @@ import 'package:gdsc_metu2023/map/placepicker.dart';
 import 'package:get/get.dart';
 import 'authentication/authentication.dart';
 import 'mainpage.dart';
-import 'map/map.dart';
+//import 'map/map.dart';
+import 'map/mapx.dart';
 import 'map/placepicker.dart';
 
 void main() async {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "GDSC 2023",
-      home: PlacePicker(),
+      home: Map(),
     );
   }
 }

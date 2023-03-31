@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:custom_info_window/custom_info_window.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -11,10 +12,13 @@ class Map extends StatefulWidget {
 
 class MapState extends State<Map> {
   Completer<GoogleMapController> _controller = Completer();
+  static CustomInfoWindowController _customInfoWindowController =
+      CustomInfoWindowController();
 
   @override
   void initState() {
     super.initState();
+    _getCurrentLocation();
   }
 
   double zoomVal = 5.0;
@@ -24,84 +28,9 @@ class MapState extends State<Map> {
       body: Stack(
         children: <Widget>[
           _buildGoogleMap(context),
+          _buildInfoWindow(context)
           //_buildContainer(),
         ],
-      ),
-    );
-  }
-
-/*
-  Widget _buildContainer() {
-    return Align(
-      alignment: Alignment.bottomLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 20.0),
-        height: 150.0,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://lh5.googleusercontent.com/p/AF1QipO3VPL9m-b355xWeg4MXmOQTauFAEkavSluTtJU=w225-h160-k-no",
-                  40.738380,
-                  -73.988426,
-                  "Gramercy Tavern"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://lh5.googleusercontent.com/p/AF1QipMKRN-1zTYMUVPrH-CcKzfTo6Nai7wdL7D8PMkt=w340-h160-k-no",
-                  40.761421,
-                  -73.981667,
-                  "Le Bernardin"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://images.unsplash.com/photo-1504940892017-d23b9053d5d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                  40.732128,
-                  -73.999619,
-                  "Blue Hill"),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-*/
-  Widget _boxes(String _image, double lat, double long, String restaurantName) {
-    return GestureDetector(
-      onTap: () {
-        _gotoLocation(lat, long);
-      },
-      child: Container(
-        child: new FittedBox(
-          child: Material(
-              color: Colors.white,
-              elevation: 14.0,
-              borderRadius: BorderRadius.circular(24.0),
-              shadowColor: Color(0x802196F3),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    width: 180,
-                    height: 200,
-                    child: ClipRRect(
-                      borderRadius: new BorderRadius.circular(24.0),
-                      child: Image(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(_image),
-                      ),
-                    ),
-                  ),
-                ],
-              )),
-        ),
       ),
     );
   }
@@ -120,12 +49,23 @@ class MapState extends State<Map> {
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition: CameraPosition(
-            target: LatLng(39.88766486046114, 32.8651160404297), zoom: 12),
+        initialCameraPosition: CameraPosition(target: LatLng(1, 1), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
+          _customInfoWindowController.googleMapController = controller;
           _controller.complete(controller);
         },
         markers: Set<Marker>.of(createMarkers()),
+      ),
+    );
+  }
+
+  Widget _buildInfoWindow(BuildContext context) {
+    return Container(
+      child: CustomInfoWindow(
+        controller: _customInfoWindowController,
+        height: 75,
+        width: 150,
+        offset: 50,
       ),
     );
   }
@@ -139,29 +79,50 @@ class MapState extends State<Map> {
       bearing: 45.0,
     )));
   }
+
+  Marker ankara = Marker(
+    markerId: MarkerId('Çankaya Köşkü'),
+    position: LatLng(39.88766486046114, 32.8651160404297),
+    infoWindow: InfoWindow(title: 'Çankaya Köşkü'),
+    icon: BitmapDescriptor.defaultMarkerWithHue(
+      BitmapDescriptor.hueYellow,
+    ),
+    onTap: () {
+      _customInfoWindowController.addInfoWindow!(
+        Column(
+          children: [],
+        ),
+        LatLng(39.88766486046114, 32.8651160404297),
+      );
+    },
+  );
+
+  List<Marker> createMarkers() {
+    var data = [
+      {'name': 'Marker 1', 'lat': 37.77483, 'lng': -122.41942},
+      {'name': 'Marker 2', 'lat': 37.78527, 'lng': -122.40617},
+      {'name': 'Marker 3', 'lat': 37.76265, 'lng': -122.41417},
+    ];
+
+    return data
+        .map((item) => Marker(
+              markerId: MarkerId(item['name'] as String),
+              position: LatLng(item['lat'] as double, item['lng'] as double),
+              //infoWindow: InfoWindow(title: item['name'] as String),
+              onTap: () {
+                print("clicked");
+                _customInfoWindowController.addInfoWindow!(
+                  Column(
+                    children: [
+                      Text('First item'),
+                      Text('Second item'),
+                      Text('Third item'),
+                    ],
+                  ),
+                  LatLng(39.88766486046114, 32.8651160404297),
+                );
+              },
+            ))
+        .toList();
+  }
 }
-
-List<Marker> createMarkers() {
-  var data = [
-    {'name': 'Marker 1', 'lat': 37.77483, 'lng': -122.41942},
-    {'name': 'Marker 2', 'lat': 37.78527, 'lng': -122.40617},
-    {'name': 'Marker 3', 'lat': 37.76265, 'lng': -122.41417},
-  ];
-
-  return data
-      .map((item) => Marker(
-            markerId: MarkerId(item['name'] as String),
-            position: LatLng(item['lat'] as double, item['lng'] as double),
-            infoWindow: InfoWindow(title: item['name'] as String),
-          ))
-      .toList();
-}
-
-Marker ankara = Marker(
-  markerId: MarkerId('Çankaya Köşkü'),
-  position: LatLng(39.88766486046114, 32.8651160404297),
-  infoWindow: InfoWindow(title: 'Çankaya Köşkü'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueYellow,
-  ),
-);

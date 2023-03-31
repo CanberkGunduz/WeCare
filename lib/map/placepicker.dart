@@ -26,7 +26,6 @@ class _MapViewState extends State<MapView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Location Picker',
-      debugShowCheckedModeBanner: true,
       home: Scaffold(
         body: FlutterLocationPicker(
             initZoom: 11,

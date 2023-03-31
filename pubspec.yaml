@@ -48,6 +48,8 @@ dependencies:
   geolocator: ^9.0.2
   map_location_picker: ^1.1.0
   location_picker_flutter_map: ^1.1.5
+  location: ^4.4.0
+  custom_info_window: ^1.0.1
 
 dev_dependencies:
   flutter_test:

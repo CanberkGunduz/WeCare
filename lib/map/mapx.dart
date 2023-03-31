@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:location/location.dart';
 
 class Map extends GetWidget<MapController> {
   double zoomVal = 5.0;
@@ -19,16 +21,24 @@ class Map extends GetWidget<MapController> {
     );
   }
 
-  Future<LatLng> _getCurrentLocation() async {
-    final position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    return LatLng(position.latitude, position.longitude);
+  static const CameraPosition _kGoogle = CameraPosition(
+    target: LatLng(20.42796133580664, 80.885749655962),
+    zoom: 14.4746,
+  );
+  @override
+  Future<Position> getUserCurrentLocation() async {
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) async {
+      await Geolocator.requestPermission();
+      print("ERROR" + error.toString());
+    });
+    return await Geolocator.getCurrentPosition();
   }
-
 //solve current position problem
+
+  @override
   Widget _buildGoogleMap(BuildContext context) {
-    CameraPosition? cameraPosition;
     final MapController mapController =
         Get.put(MapController()); // create and register the controller
     return Container(
@@ -36,15 +46,9 @@ class Map extends GetWidget<MapController> {
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition: CameraPosition(target: LatLng(1, 1), zoom: 12),
+        initialCameraPosition: _kGoogle,
         onMapCreated: (GoogleMapController controller) {
           mapController.googleMapController.complete(controller);
-        },
-        onCameraMove: (CameraPosition cameraPositiona) {
-          cameraPosition = cameraPositiona; //when map is dragging
-        },
-        onCameraIdle: () async {
-          //when map drag stops
         },
         myLocationEnabled: true,
         markers: Set<Marker>.of(createMarkers()),
@@ -64,54 +68,31 @@ class Map extends GetWidget<MapController> {
       bearing: 45.0,
     )));
   }
+
+  List<Marker> createMarkers() {
+    var doc = [
+      {'name': 'Marker 1', 'lat': 37.77483, 'lng': -122.41942},
+      {'name': 'Marker 2', 'lat': 37.78527, 'lng': -122.40617},
+      {'name': 'Marker 3', 'lat': 37.76265, 'lng': -122.41417},
+    ];
+    return doc
+        .map((item) => Marker(
+              markerId: MarkerId(item['name'] as String),
+              position: LatLng(item["lat"] as double, item["lng"] as double),
+              infoWindow: InfoWindow(title: item['name'] as String),
+              onTap: () {},
+            ))
+        .toList();
+  }
+
+  Marker ankara = Marker(
+      markerId: MarkerId('Çankaya Köşkü'),
+      position: LatLng(39.88766486046114, 32.8651160404297),
+      icon: BitmapDescriptor.defaultMarkerWithHue(
+        BitmapDescriptor.hueYellow,
+      ),
+      onTap: () {});
 }
-
-List<Marker> createMarkers() {
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final CollectionReference collectionRef = firestore.collection('lab');
-  List locs = [];
-  collectionRef.get().then((QuerySnapshot querySnapshot) {
-    querySnapshot.docs.forEach((doc) {
-      // Document data is in doc.data()
-      var data = doc.data();
-      locs.add(data);
-      print(locs);
-    });
-  }).catchError((error) {
-    print('Error getting documents: $error');
-  });
-/*
-  var doc = [
-    {'name': 'Marker 1', 'lat': 37.77483, 'lng': -122.41942},
-    {'name': 'Marker 2', 'lat': 37.78527, 'lng': -122.40617},
-    {'name': 'Marker 3', 'lat': 37.76265, 'lng': -122.41417},
-  ];
-
-*/
-  /*for (var i in locs) {
-    var latlang = i['eventLocation'].split(',');
-    i["lat"] = double.parse(latlang[0]);
-    i["lng"] = double.parse(latlang[1]);
-    print(latlang);
-  }*/
-  return locs
-      .map((item) => Marker(
-            markerId: MarkerId(item['eventName'] as String),
-            position:
-                LatLng(item["eventLocation"][0], item["eventLocation"][1]),
-            infoWindow: InfoWindow(title: item['eventName'] as String),
-          ))
-      .toList();
-}
-
-Marker ankara = Marker(
-  markerId: MarkerId('Çankaya Köşkü'),
-  position: LatLng(39.88766486046114, 32.8651160404297),
-  infoWindow: InfoWindow(title: 'Çankaya Köşkü'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueYellow,
-  ),
-);
 
 class MapController extends GetxController {
   Completer<GoogleMapController> googleMapController = Completer();
