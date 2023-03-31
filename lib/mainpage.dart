@@ -18,6 +18,7 @@ class MainPage extends StatelessWidget {
         body: pages[_currentIndex.value],
         bottomNavigationBar: Obx(
           () => BottomNavigationBar(
+            elevation: 3,
             onTap: (value) {
               _currentIndex.value = value;
             },

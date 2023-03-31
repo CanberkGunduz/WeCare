@@ -4,7 +4,7 @@ class Event {
   String username;
   String eventName;
   String eventDetail;
-  String eventLocation;
+  List eventLocation;
   String eventPhoto;
   List goals;
   List activities;

@@ -29,15 +29,6 @@ class EventFeed extends StatelessWidget {
           style: TextStyle(color: Colors.orange),
         ),
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.grey,
-          ),
-        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -110,14 +101,25 @@ class EventFeed extends StatelessWidget {
             SizedBox(
               height: 5,
             ),
-            ListView.builder(
-                itemCount: eventController.eventList[0].length,
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final event = eventController.eventList[0][index];
-                  return EventTileWithCategories(event: event);
-                }),
+            eventController.eventList[0].length == 0
+                ? Center(
+                    child: Text(
+                      "There are no events at the moment.",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 24,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: eventController.eventList[0].length,
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final event = eventController.eventList[0][index];
+                      return EventTileWithCategories(event: event);
+                    }),
           ],
         ),
       ),

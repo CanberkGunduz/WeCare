@@ -135,7 +135,7 @@ class EventController extends GetxController {
   }
 
   // create event
-  Future<bool> createEvent(String eventName, String eventDetail, String eventLocation, List goals, List activities,
+  Future<bool> createEvent(String eventName, String eventDetail, List eventLocation, List goals, List activities,
       List categories, File? eventPhoto, DateTime eventDate) async {
     try {
       if (eventName.isNotEmpty &&

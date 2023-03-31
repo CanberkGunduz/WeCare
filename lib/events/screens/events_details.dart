@@ -4,8 +4,12 @@ import 'package:gdsc_metu2023/constants.dart';
 import 'package:gdsc_metu2023/events/controllers/event_controller.dart';
 import 'package:gdsc_metu2023/events/controllers/event_details_controller.dart';
 import 'package:gdsc_metu2023/events/controllers/event_participant_controller.dart';
+import 'package:gdsc_metu2023/mainpage.dart';
+import 'package:gdsc_metu2023/map/map_controller.dart';
 import 'package:gdsc_metu2023/profile_screen.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controllers/event_comment_controller.dart';
 import '../controllers/event_lock_controller.dart';
 import '../model/event_model.dart';
@@ -21,6 +25,7 @@ class EventsDetailsPage extends StatelessWidget {
   EventCommentController commentController = Get.put(EventCommentController());
   TextEditingController _commentController = TextEditingController();
   TextEditingController _reportController = TextEditingController();
+  MapController mapController = Get.find();
   Rx<bool> isParticipant = false.obs;
   // RxList<bool> isLocked = [false].obs;
 
@@ -352,14 +357,27 @@ class EventsDetailsPage extends StatelessWidget {
                                 ),
                                 Expanded(
                                     child: Text(
-                                  event.eventLocation,
+                                  event.eventLocation[2],
                                   style: TextStyle(fontSize: 16),
                                 )),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    mapController.currentPosition = Position(
+                                      latitude: event.eventLocation[0],
+                                      longitude: event.eventLocation[1],
+                                      accuracy: 0,
+                                      altitude: 0,
+                                      heading: 0,
+                                      speed: 0,
+                                      speedAccuracy: 0,
+                                      timestamp: DateTime.now(),
+                                    );
+                                    Get.offAll(() => MainPage());
+                                    mapController.gotoLocation(event.eventLocation[0], event.eventLocation[1]);
+                                  },
                                   child: Container(
                                       padding: EdgeInsets.all(2),
                                       decoration: BoxDecoration(
@@ -493,6 +511,9 @@ class EventsDetailsPage extends StatelessWidget {
                                     title: "Unlock Event",
                                     content: Text("Are you sure you want to unlock this event?"),
                                     textConfirm: "Yes",
+                                    confirmTextColor: Colors.white,
+                                    cancelTextColor: Colors.orange[900],
+                                    buttonColor: Colors.orange[900],
                                     textCancel: "No",
                                     onConfirm: () {
                                       Get.back();
@@ -504,6 +525,9 @@ class EventsDetailsPage extends StatelessWidget {
                                     title: "Lock Event",
                                     content: Text("Are you sure you want to lock this event?"),
                                     textConfirm: "Yes",
+                                    confirmTextColor: Colors.white,
+                                    cancelTextColor: Colors.orange[900],
+                                    buttonColor: Colors.orange[900],
                                     textCancel: "No",
                                     onConfirm: () {
                                       Get.back();
@@ -536,6 +560,9 @@ class EventsDetailsPage extends StatelessWidget {
                                     title: "Leave Event",
                                     content: Text("Are you sure you want to leave this event?"),
                                     textConfirm: "Yes",
+                                    confirmTextColor: Colors.white,
+                                    cancelTextColor: Colors.orange[900],
+                                    buttonColor: Colors.orange[900],
                                     textCancel: "No",
                                     onConfirm: () {
                                       Get.back();
@@ -553,6 +580,9 @@ class EventsDetailsPage extends StatelessWidget {
                                       title: "Join Event",
                                       content: Text("Are you sure you want to join this event?"),
                                       textConfirm: "Yes",
+                                      confirmTextColor: Colors.white,
+                                      cancelTextColor: Colors.orange[900],
+                                      buttonColor: Colors.orange[900],
                                       textCancel: "No",
                                       onConfirm: () {
                                         Get.back();

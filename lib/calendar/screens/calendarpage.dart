@@ -10,6 +10,19 @@ class CalendarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+            title: Text("Calendar", style: TextStyle(color: Colors.orange)),
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.orange,
+              ),
+            )),
         body: Calendar(),
       ),
     );

@@ -116,7 +116,7 @@ class ProfileScreen extends StatelessWidget {
                                 birthdayText,
                                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: 8),
                               Text(
                                 user.gender,
                                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
@@ -341,6 +341,8 @@ class ProfileScreenVisitor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RxList interests = user.interests.obs;
+    RxList skills = user.skills.obs;
     DateTime date = user.dateOfBirth.toDate();
     String birthdayText =
         'Birthday: ${date.day.toString().padLeft(2, "0")}/${date.month.toString().padLeft(2, "0")}/${date.year}';
@@ -427,7 +429,7 @@ class ProfileScreenVisitor extends StatelessWidget {
                                 birthdayText,
                                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: 8),
                               Text(
                                 user.gender,
                                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
@@ -488,65 +490,74 @@ class ProfileScreenVisitor extends StatelessWidget {
                     SizedBox(height: 30),
                     Text("Interests", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black)),
                     SizedBox(height: 10),
-                    GridView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: 4,
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 1,
-                        mainAxisSpacing: 1,
-                        childAspectRatio: 4,
+                    Obx(
+                      () => GridView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: interests.length,
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 1,
+                          mainAxisSpacing: 1,
+                          childAspectRatio: 2,
+                        ),
+                        itemBuilder: (context, index) {
+                          return GridTile(
+                            child: Card(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                              color: Colors.white,
+                              elevation: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          interests[index],
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      itemBuilder: (context, index) {
-                        return GridTile(
-                          child: Card(
+                    ),
+                    SizedBox(height: 30),
+                    Text("Skills", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black)),
+                    SizedBox(height: 10),
+                    Obx(
+                      () => ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: skills.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Card(
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                             color: Colors.white,
                             elevation: 3,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Interest ${index + 1}",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      skills[index],
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 30),
-                    Text("Able To Teach",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black)),
-                    SizedBox(height: 10),
-                    ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: 8,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                          color: Colors.white,
-                          elevation: 3,
-                          child: SizedBox(
-                            height: 30,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Able To Teach ${index + 1}",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),

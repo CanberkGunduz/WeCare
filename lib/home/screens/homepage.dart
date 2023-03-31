@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gdsc_metu2023/calendar/screens/calendarpage.dart';
 import 'package:gdsc_metu2023/constants.dart';
 import 'package:gdsc_metu2023/events/screens/events_feed.dart';
+import 'package:gdsc_metu2023/map/map.dart';
 import 'package:gdsc_metu2023/profile_screen.dart';
 import 'package:get/get.dart';
 import '../../authentication/user_model.dart';
@@ -16,100 +18,69 @@ class Homepage extends StatelessWidget {
     return SafeArea(
       child: Stack(
         children: [
-          Scaffold(
-            backgroundColor: Colors.grey[200],
-          ),
+          MapWidget(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-            child: Container(
-              height: Get.size.height * 0.1,
-              // width: Get.size.width,
-              color: Colors.white,
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        color: Colors.grey[500],
-                        width: Get.size.width * 0.73,
-                        height: Get.size.height * 0.05,
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Container(
-                            color: Colors.grey[500],
-                            width: Get.size.width * 0.3,
-                            height: Get.size.height * 0.03,
-                          ),
-                          SizedBox(width: 10),
-                          Container(
-                            color: Colors.grey[500],
-                            width: Get.size.width * 0.4,
-                            height: Get.size.height * 0.03,
-                          ),
-                        ],
-                      ),
-                    ],
+            child: InkWell(
+                onTap: () => Get.to(() => ProfileScreen(
+                      user: user,
+                    )),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.orange,
+                      width: 2,
+                    ),
                   ),
-                  SizedBox(width: 10),
-                  InkWell(
-                      onTap: () => Get.to(() => ProfileScreen(
-                            user: user,
-                          )),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.orange,
-                            width: 2,
-                          ),
-                        ),
-                        child: ClipOval(
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey[300],
-                            radius: 36,
-                            child: Image.network(
-                              user.profilePhoto,
-                              fit: BoxFit.contain,
-                              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
+                  child: ClipOval(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[300],
+                      radius: 36,
+                      child: Image.network(
+                        user.profilePhoto,
+                        fit: BoxFit.contain,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                  : null,
                             ),
-                          ),
-                        ),
-                      ))
-                ],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                )),
+          ),
+          Positioned(
+            bottom: Get.size.height * 0.13,
+            right: Get.size.width * 0.02,
+            child: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(
+                  color: Colors.orange,
+                  width: 2,
+                ),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Get.to(() => CalendarPage(), duration: Duration(milliseconds: 500), transition: Transition.topLevel);
+                },
+                icon: Icon(
+                  Icons.edit_calendar_rounded,
+                  color: Colors.black,
+                  size: 30,
+                ),
               ),
             ),
           ),
-          Positioned(
-              bottom: Get.size.height * 0.02,
-              right: Get.size.width * 0.05,
-              child: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    Get.to(() => EventFeed(), duration: Duration(milliseconds: 500), transition: Transition.topLevel);
-                  },
-                  icon: Icon(
-                    Icons.menu,
-                    size: 30,
-                  ),
-                ),
-              ))
         ],
       ),
     );

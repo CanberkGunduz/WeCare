@@ -98,7 +98,7 @@ class EventTile extends StatelessWidget {
                         SizedBox(width: 5),
                         Expanded(
                           child: Text(
-                            event.eventLocation,
+                            event.eventLocation[2],
                             style: TextStyle(fontSize: 14, color: Colors.grey),
                             // maxLines: 3,
                             // overflow: TextOverflow.ellipsis,
@@ -358,7 +358,7 @@ class EventTileWithCategories extends StatelessWidget {
                                   SizedBox(width: 5),
                                   Expanded(
                                     child: Text(
-                                      event.eventLocation,
+                                      event.eventLocation[2],
                                       maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 14, color: Colors.grey[850]),
@@ -394,7 +394,7 @@ class EventTileWithCategories extends StatelessWidget {
                           child: Wrap(
                             alignment: WrapAlignment.center,
                             children: [
-                              for (var category in categories.sublist(0, 2))
+                              for (var category in categories.sublist(0, categories.length > 2 ? 2 : categories.length))
                                 FittedBox(
                                   fit: BoxFit.contain,
                                   child: Card(

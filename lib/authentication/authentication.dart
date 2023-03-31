@@ -152,8 +152,8 @@ class AuthController extends GetxController {
         await firestore.collection("users").doc(cred.user!.uid).set(user.toJson());
         await Future.delayed(Duration(seconds: 1));
         await setUserData();
-        print("set user");
         loginUser(email, password);
+        await _setInitialScreen(firebaseuser);
         return true;
       } else {
         Get.snackbar(

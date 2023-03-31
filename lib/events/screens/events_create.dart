@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 import '../../constants.dart';
 import '../controllers/event_controller.dart';
 
@@ -12,12 +13,13 @@ class EventCreateScreen extends StatelessWidget {
   final EventController eventController = Get.put(EventController());
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _eventDetailsController = TextEditingController();
-  final TextEditingController _eventLocationController = TextEditingController();
+  final RxList _eventLocationController = [].obs;
   final TextEditingController _eventActivitiesController = TextEditingController();
   final TextEditingController _eventGoalsController = TextEditingController();
   final TextEditingController _eventCategoriesController = TextEditingController();
   Rx<DateTime> date = DateTime.now().obs;
   Rx<TimeOfDay> time = TimeOfDay.now().obs;
+  RxBool locPicked = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,7 @@ class EventCreateScreen extends StatelessWidget {
                       bool created = await eventController.createEvent(
                         _eventNameController.text,
                         _eventDetailsController.text,
-                        _eventLocationController.text,
+                        _eventLocationController,
                         _eventGoalsController.text.split("\n"),
                         _eventActivitiesController.text.split("\n"),
                         _eventCategoriesController.text.split("\n"),
@@ -103,7 +105,7 @@ class EventCreateScreen extends StatelessWidget {
                         SizedBox(height: 10),
                         Text("Event Name: ${_eventNameController.text}"),
                         Text("Event Details: ${_eventDetailsController.text}"),
-                        Text("Takes Place At: ${_eventLocationController.text}"),
+                        Text("Takes Place At: ${_eventLocationController[2]}"),
                       ],
                     ),
                   );
@@ -361,46 +363,120 @@ class EventCreateScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
+              InkWell(
+                onTap: () {
+                  Get.to(
+                    () => Scaffold(
+                      body: FlutterLocationPicker(
+                        initZoom: 11,
+                        minZoomLevel: 5,
+                        maxZoomLevel: 16,
+                        trackMyPosition: true,
+                        searchBarBackgroundColor: Colors.white,
+                        locationButtonBackgroundColor: Colors.orange[900],
+                        zoomButtonsColor: Colors.white,
+                        zoomButtonsBackgroundColor: Colors.orange[900],
+                        mapLanguage: 'en',
+                        onError: (e) => Get.snackbar(
+                          "Error",
+                          e.toString(),
+                        ),
+                        searchBarHintText: "Search Location",
+                        selectLocationButtonStyle: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.orange[900],
+                          ),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        markerIconColor: Color.fromARGB(255, 230, 81, 0),
+                        loadingWidget: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        onPicked: (pickedData) {
+                          locPicked.value = true;
+                          print(pickedData.latLong.latitude.runtimeType);
+                          print(pickedData.latLong.longitude.runtimeType);
+                          print(pickedData.address.runtimeType);
+                          print(pickedData.addressData['country'].runtimeType);
+                          Get.defaultDialog(
+                            title: "Event Location",
+                            content: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    pickedData.address,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            textConfirm: "Confirm",
+                            textCancel: "Cancel",
+                            confirmTextColor: Colors.white,
+                            cancelTextColor: Colors.orange[900],
+                            buttonColor: Colors.orange[900],
+                            onConfirm: () {
+                              _eventLocationController.addAll([
+                                pickedData.latLong.latitude,
+                                pickedData.latLong.longitude,
+                                pickedData.address,
+                                pickedData.addressData['country']
+                              ]);
+                              Get.back();
+                              Get.back();
+                              Get.snackbar("Location Chosen", "Location Chosen Successfully",
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Colors.green,
+                                  colorText: Colors.white,
+                                  duration: const Duration(seconds: 2));
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ],
-                ),
-                child: TextFormField(
-                  controller: _eventLocationController,
-                  maxLines: 2,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                  );
+                },
+                child: Container(
+                  width: Get.width,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 15,
                   ),
-                  decoration: const InputDecoration(
-                    fillColor: Colors.white,
-                    hintText: "Event Location",
-                    hintStyle: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 7,
+                        offset: const Offset(0, 3),
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(0)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(0)),
-                    ),
+                    ],
+                  ),
+                  child: Obx(
+                    () => Text(
+                        _eventLocationController.length == 0
+                            ? "Event Location (Tap to choose)"
+                            : _eventLocationController[2],
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        )),
                   ),
                 ),
               ),
@@ -538,7 +614,7 @@ class EventCreateScreen extends StatelessWidget {
                           bool created = await eventController.createEvent(
                             _eventNameController.text,
                             _eventDetailsController.text,
-                            _eventLocationController.text,
+                            _eventLocationController,
                             _eventGoalsController.text.split("\n"),
                             _eventActivitiesController.text.split("\n"),
                             _eventCategoriesController.text.split("\n"),
@@ -570,7 +646,7 @@ class EventCreateScreen extends StatelessWidget {
                             SizedBox(height: 10),
                             Text("Event Name: ${_eventNameController.text}"),
                             Text("Event Details: ${_eventDetailsController.text}"),
-                            Text("Takes Place At: ${_eventLocationController.text}"),
+                            Text("Takes Place At: ${_eventLocationController[2]}"),
                           ],
                         ),
                       );
