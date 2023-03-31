@@ -120,6 +120,122 @@ class EventTile extends StatelessWidget {
   }
 }
 
+class EventTileBottomSheet extends StatelessWidget {
+  Event event;
+  EventTileBottomSheet({Key? key, required this.event}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    DateTime date = event.eventDate.toDate();
+    String dateStr =
+        "${date.day.toString().padLeft(2, "0")}/${date.month.toString().padLeft(2, "0")}/${date.year.toString().padLeft(2, "0")} ${date.hour.toString().padLeft(2, "0")}:${date.minute.toString().padLeft(2, "0")}";
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: Container(
+          // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+          // height: size.height * 0.15,
+          width: size.width * 0.9,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: Offset(0, 0),
+              ),
+            ],
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    event.eventPhoto,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                // child: Image.asset(
+                //   "assets/placeholder.png",
+
+                width: size.width * 0.3,
+
+                // ),
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 7),
+                    Text(
+                      event.eventName,
+                      style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          color: Colors.grey,
+                          size: 16,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          dateStr,
+                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.grey,
+                          size: 16,
+                        ),
+                        SizedBox(width: 5),
+                        Expanded(
+                          child: Text(
+                            event.eventLocation[2],
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                            // maxLines: 3,
+                            // overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class EventTileUrgent extends StatelessWidget {
   Event event;
   EventTileUrgent({Key? key, required this.event}) : super(key: key);

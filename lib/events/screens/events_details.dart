@@ -327,14 +327,14 @@ class EventsDetailsPage extends StatelessWidget {
                                   onTap: () {},
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.orange),
+                                      border: Border.all(color: Colors.orange[900]!),
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                         "Add to Calendar  +",
-                                        style: TextStyle(color: Colors.orange),
+                                        style: TextStyle(color: Colors.orange[900]!),
                                       ),
                                     ),
                                   ),
@@ -375,19 +375,17 @@ class EventsDetailsPage extends StatelessWidget {
                                       speedAccuracy: 0,
                                       timestamp: DateTime.now(),
                                     );
-                                    Get.offAll(() => MainPage());
-                                    mapController.gotoLocation(event.eventLocation[0], event.eventLocation[1]);
                                   },
                                   child: Container(
                                       padding: EdgeInsets.all(2),
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.orange),
+                                        border: Border.all(color: Colors.orange[900]!),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: Icon(
                                         Icons.directions,
                                         size: 30,
-                                        color: Colors.orange,
+                                        color: Colors.orange[900]!,
                                       )),
                                 )
                               ],
