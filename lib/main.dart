@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gdsc_metu2023/map/placepicker.dart';
 import 'package:get/get.dart';
+import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 import 'authentication/authentication.dart';
 import 'mainpage.dart';
 //import 'map/map.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "GDSC 2023",
-      home: Map(),
+      home: PlacePicker(),
     );
   }
 }

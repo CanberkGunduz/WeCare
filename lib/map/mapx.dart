@@ -52,6 +52,7 @@ class Map extends GetWidget<MapController> {
         },
         myLocationEnabled: true,
         markers: Set<Marker>.of(createMarkers()),
+        zoomControlsEnabled: false,
       ),
     );
   }

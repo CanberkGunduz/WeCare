@@ -33,6 +33,9 @@ class _MapViewState extends State<MapView> {
             maxZoomLevel: 16,
             trackMyPosition: true,
             searchBarBackgroundColor: Colors.white,
+            locationButtonBackgroundColor: Colors.orange[900],
+            zoomButtonsColor: Colors.white,
+            zoomButtonsBackgroundColor: Colors.orange[900],
             mapLanguage: 'en',
             onError: (e) => print(e),
             onPicked: (pickedData) {
