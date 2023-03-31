@@ -5,9 +5,7 @@ import 'package:get/get.dart';
 import 'authentication/user_model.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({required this.user, super.key});
-
-  final User user;
+  ProfileScreen({super.key});
 
   final List<String> _options = [
     "Add Institution",
@@ -20,6 +18,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User user = authController.user;
     final RxList skills = user.skills.obs;
     final RxList interests = user.interests.obs;
     DateTime date = user.dateOfBirth.toDate();
@@ -27,14 +26,11 @@ class ProfileScreen extends StatelessWidget {
         'Birthday: ${date.day.toString().padLeft(2, "0")}/${date.month.toString().padLeft(2, "0")}/${date.year}';
     return Scaffold(
       appBar: AppBar(
-        title: const Text('WeCare', style: TextStyle(color: Colors.orange)),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.orange),
-          onPressed: () {
-            Get.back();
-          },
+        title: Image.asset(
+          "assets/WeCare.png",
+          width: Get.width * 0.4,
         ),
+        centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 3,
         actions: [
@@ -141,7 +137,7 @@ class ProfileScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                               child: Text(
                                 "${user.friends.length} Friends",
-                                style: TextStyle(color: Colors.orange, fontSize: 15, fontWeight: FontWeight.w400),
+                                style: TextStyle(color: Colors.orange[900], fontSize: 15, fontWeight: FontWeight.w400),
                               ),
                             ),
                           ),
@@ -153,7 +149,7 @@ class ProfileScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                               child: Text(
                                 "Participated Projects: ${user.participatedProjects.length}",
-                                style: TextStyle(color: Colors.orange, fontSize: 15, fontWeight: FontWeight.w400),
+                                style: TextStyle(color: Colors.orange[900], fontSize: 15, fontWeight: FontWeight.w400),
                               ),
                             ),
                           ),
@@ -186,7 +182,7 @@ class ProfileScreen extends StatelessWidget {
                           },
                           child: Text(
                             "Add more",
-                            style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w500),
+                            style: TextStyle(color: Colors.orange[900], fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],
@@ -232,8 +228,8 @@ class ProfileScreen extends StatelessWidget {
                                           textConfirm: "Yes",
                                           textCancel: "No",
                                           confirmTextColor: Colors.white,
-                                          cancelTextColor: Colors.orange,
-                                          buttonColor: Colors.orange,
+                                          cancelTextColor: Colors.orange[900],
+                                          buttonColor: Colors.orange[900],
                                           onConfirm: () {
                                             Get.back();
                                             interests.removeAt(index);
@@ -262,7 +258,7 @@ class ProfileScreen extends StatelessWidget {
                           },
                           child: Text(
                             "Add more",
-                            style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w500),
+                            style: TextStyle(color: Colors.orange[900], fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],
@@ -299,8 +295,8 @@ class ProfileScreen extends StatelessWidget {
                                         textConfirm: "Yes",
                                         textCancel: "No",
                                         confirmTextColor: Colors.white,
-                                        cancelTextColor: Colors.orange,
-                                        buttonColor: Colors.orange,
+                                        cancelTextColor: Colors.orange[900],
+                                        buttonColor: Colors.orange[900],
                                         onConfirm: () {
                                           Get.back();
                                           skills.removeAt(index);
@@ -348,10 +344,10 @@ class ProfileScreenVisitor extends StatelessWidget {
         'Birthday: ${date.day.toString().padLeft(2, "0")}/${date.month.toString().padLeft(2, "0")}/${date.year}';
     return Scaffold(
       appBar: AppBar(
-        title: const Text('WeCare', style: TextStyle(color: Colors.orange)),
+        title: Text('WeCare', style: TextStyle(color: Colors.orange[900])),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.orange),
+          icon: Icon(Icons.arrow_back, color: Colors.orange[900]),
           onPressed: () {
             Get.back();
           },
@@ -454,7 +450,7 @@ class ProfileScreenVisitor extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                               child: Text(
                                 "${user.friends.length} Friends",
-                                style: TextStyle(color: Colors.orange, fontSize: 15, fontWeight: FontWeight.w400),
+                                style: TextStyle(color: Colors.orange[900], fontSize: 15, fontWeight: FontWeight.w400),
                               ),
                             ),
                           ),
@@ -466,7 +462,7 @@ class ProfileScreenVisitor extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                               child: Text(
                                 "Participated Projects: ${user.participatedProjects.length}",
-                                style: TextStyle(color: Colors.orange, fontSize: 15, fontWeight: FontWeight.w400),
+                                style: TextStyle(color: Colors.orange[900], fontSize: 15, fontWeight: FontWeight.w400),
                               ),
                             ),
                           ),

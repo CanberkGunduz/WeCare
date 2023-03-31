@@ -16,72 +16,124 @@ class Homepage extends StatelessWidget {
     // authController.setUserData();
     User user = authController.user;
     return SafeArea(
-      child: Stack(
-        children: [
-          MapWidget(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-            child: InkWell(
-                onTap: () => Get.to(() => ProfileScreen(
-                      user: user,
-                    )),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.orange,
-                      width: 2,
-                    ),
-                  ),
-                  child: ClipOval(
-                    child: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      radius: 36,
-                      child: Image.network(
-                        user.profilePhoto,
-                        fit: BoxFit.contain,
-                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                )),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Image.asset(
+            "assets/WeCare.png",
+            width: Get.width * 0.4,
           ),
-          Positioned(
-            bottom: Get.size.height * 0.13,
-            right: Get.size.width * 0.02,
-            child: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(
-                  color: Colors.orange,
-                  width: 2,
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          // actions: [
+          //   IconButton(
+          //       onPressed: () {},
+          //       icon: Icon(
+          //         Icons.person,
+          //         color: Colors.orange[900],
+          //         size: 42,
+          //       )),
+          //   SizedBox(
+          //     width: 10,
+          //   ),
+          // ],
+        ),
+        body: Stack(
+          children: [
+            MapWidget(),
+            // Positioned(
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       color: Color.fromARGB(255, 247, 247, 247),
+            //       borderRadius: BorderRadius.circular(64),
+            //       // shape: BoxShape.circle,
+            //       border: Border.all(
+            //         color: Colors.orange,
+            //         width: 2,
+            //       ),
+            //     ),
+            //     child: ClipOval(
+            //       child: Image.asset(
+            //         "assets/logo.png",
+            //         width: Get.width * 0.15,
+            //       ),
+            //     ),
+            //   ),
+            //   top: Get.height * 0.01,
+            //   left: Get.width * 0.02,
+            // ),
+            // Row(
+            //   children: [
+            //     Padding(
+            //       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            //       child: InkWell(
+            //           onTap: () => Get.to(() => ProfileScreen(
+            //                 user: user,
+            //               )),
+            //           child: Container(
+            //             decoration: BoxDecoration(
+            //               shape: BoxShape.circle,
+            //               border: Border.all(
+            //                 color: Colors.orange,
+            //                 width: 2,
+            //               ),
+            //             ),
+            //             child: ClipOval(
+            //               child: CircleAvatar(
+            //                 backgroundColor: Colors.grey[300],
+            //                 radius: 36,
+            //                 child: Image.network(
+            //                   user.profilePhoto,
+            //                   fit: BoxFit.contain,
+            //                   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+            //                     if (loadingProgress == null) return child;
+            //                     return Center(
+            //                       child: CircularProgressIndicator(
+            //                         value: loadingProgress.expectedTotalBytes != null
+            //                             ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+            //                             : null,
+            //                       ),
+            //                     );
+            //                   },
+            //                 ),
+            //               ),
+            //             ),
+            //           )),
+            //     ),
+            //     Image.asset(
+            //       "assets/WeCare.png",
+            //       width: Get.width * 0.6,
+            //     ),
+            //   ],
+            // ),
+            Positioned(
+              bottom: Get.size.height * 0.13,
+              right: Get.size.width * 0.02,
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(
+                    color: Colors.orange,
+                    width: 2,
+                  ),
                 ),
-              ),
-              child: IconButton(
-                onPressed: () {
-                  Get.to(() => CalendarPage(), duration: Duration(milliseconds: 500), transition: Transition.topLevel);
-                },
-                icon: Icon(
-                  Icons.edit_calendar_rounded,
-                  color: Colors.black,
-                  size: 30,
+                child: IconButton(
+                  onPressed: () {
+                    Get.to(() => CalendarPage(),
+                        duration: Duration(milliseconds: 500), transition: Transition.topLevel);
+                  },
+                  icon: Icon(
+                    Icons.edit_calendar_rounded,
+                    color: Colors.black,
+                    size: 30,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

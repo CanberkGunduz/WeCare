@@ -17,9 +17,9 @@ class EventMainPage extends StatelessWidget {
     RxInt index = myTabController.controller.index.obs;
     final PageController pageController = PageController(initialPage: index.value);
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.white,
         title: TabBar(
             indicator: BoxDecoration(
               // borderRadius: BorderRadius.circular(50),

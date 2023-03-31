@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gdsc_metu2023/events/screens/events_feed.dart';
+import 'package:gdsc_metu2023/profile_screen.dart';
 import 'package:get/get.dart';
 import 'calendar/screens/calendarpage.dart';
 import 'events/screens/events_main.dart';
@@ -9,7 +10,7 @@ class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
   RxInt _currentIndex = 0.obs;
 
-  final pages = [Homepage(), EventFeed(), EventMainPage()];
+  final pages = [Homepage(), EventFeed(), EventMainPage(), ProfileScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +36,15 @@ class MainPage extends StatelessWidget {
                 icon: Icon(Icons.people),
                 label: 'Community',
               ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
             ],
             currentIndex: _currentIndex.value,
             selectedItemColor: Colors.amber[800],
+            unselectedItemColor: Colors.grey,
+            showUnselectedLabels: true,
           ),
         ),
       ),

@@ -24,9 +24,9 @@ class EventFeed extends StatelessWidget {
             ),
           )
         ],
-        title: Text(
-          "WeCare",
-          style: TextStyle(color: Colors.orange),
+        title: Image.asset(
+          "assets/WeCare.png",
+          width: Get.width * 0.4,
         ),
         centerTitle: true,
       ),
@@ -143,7 +143,7 @@ class FilterCard extends StatelessWidget {
       onTap: () => isEnabled.value = !isEnabled.value,
       child: Obx(
         () => Card(
-          color: isEnabled.value ? Colors.blue[400] : Colors.grey[400],
+          color: isEnabled.value ? Colors.orange[900] : Colors.grey[400],
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Text(
