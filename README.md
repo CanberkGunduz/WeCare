@@ -1,4 +1,4 @@
-# What is ![WeCare](https://user-images.githubusercontent.com/92223021/229888486-ad12b8f9-bd26-42c5-b37f-a904475cc68a.png)?
+# What is ![WeCare](https://user-images.githubusercontent.com/92223021/229888486-ad12b8f9-bd26-42c5-b37f-a904475cc68a.png) ?
 
 
 A project that unites people into helping others in need.
