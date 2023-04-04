@@ -42,7 +42,7 @@ class MainPage extends StatelessWidget {
               ),
             ],
             currentIndex: _currentIndex.value,
-            selectedItemColor: Colors.amber[800],
+            selectedItemColor: Colors.orange[800],
             unselectedItemColor: Colors.grey,
             showUnselectedLabels: true,
           ),

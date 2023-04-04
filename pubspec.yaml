@@ -50,6 +50,7 @@ dependencies:
   country_picker: ^2.0.20
   geolocator: ^9.0.2
   location_picker_flutter_map: ^1.1.5
+  search_map_place_updated: ^0.0.4
 
 dev_dependencies:
   flutter_test:

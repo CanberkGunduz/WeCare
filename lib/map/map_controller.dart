@@ -119,8 +119,8 @@ class MapController extends GetxController {
                     ),
                     Expanded(
                       child: Text(
-                        "event.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetailevent.eventDetail",
-                        maxLines: 3,
+                        event.eventDetail,
+                        maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,
                         style: TextStyle(fontSize: 14, color: Colors.grey),

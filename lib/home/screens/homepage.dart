@@ -115,7 +115,7 @@ class Homepage extends StatelessWidget {
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(50),
                   border: Border.all(
-                    color: Colors.orange,
+                    color: Color.fromARGB(255, 239, 108, 0),
                     width: 2,
                   ),
                 ),

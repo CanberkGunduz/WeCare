@@ -245,7 +245,7 @@ class EventTileUrgent extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     DateTime date = event.eventDate.toDate();
     String dateStr =
-        "${date.hour.toString().padLeft(2, "0")}:${date.minute.toString().padLeft(2, "0")}, ${DateTime.now().day == date.day ? "Today" : "Tomorrow"}";
+        "${date.hour.toString().padLeft(2, "0")}:${date.minute.toString().padLeft(2, "0")}, ${DateTime.now().day == date.day ? "Today" : DateTime.now().day + 1 == date.day ? "Tomorrow" : "In ${date.difference(DateTime.now()).inDays} days"}";
     return GestureDetector(
       onTap: () {
         Get.to(() => EventsDetailsPage(event: event));
@@ -259,7 +259,7 @@ class EventTileUrgent extends StatelessWidget {
             // height: size.height * 0.15,
             width: size.width * 0.35,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.orange, width: 1),
+              border: Border.all(color: Color.fromARGB(255, 230, 81, 0), width: 1),
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [

@@ -70,7 +70,6 @@ class EventFeed extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     final event = eventController.eventList[4][index];
-                    print(eventController.eventList[4][index]);
                     return EventTileUrgent(event: event);
                   }),
             ),
