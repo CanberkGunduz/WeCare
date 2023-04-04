@@ -24,4 +24,5 @@ We aim to provide a platform to kind and giving people in the world so that they
 
 ## Targeted United Nations Sustainable Development Goals
 ![noPoverty (1)](https://user-images.githubusercontent.com/92223021/229887670-2ed1bd2e-89a3-49e0-82c2-074075b893e5.png)
+![noPoverty (2)](https://user-images.githubusercontent.com/92223021/229887758-f51241f9-5bd0-448d-807f-ae7600604ab3.png)
 
