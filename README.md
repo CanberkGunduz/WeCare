@@ -23,6 +23,5 @@ Step 5: Under the lib folder open the main.dart file and run the app.
 We aim to provide a platform to kind and giving people in the world so that they can become organized much easier without the need of Civil Society Organizations. And thus reduce the inequalities in the world.
 
 ## Targeted United Nations Sustainable Development Goals
-![image](https://user-images.githubusercontent.com/92223021/229886880-237c6592-3025-4616-9763-5c325ec56c0e.png)
-![image](https://user-images.githubusercontent.com/92223021/229886808-e89e7cc6-e9d2-4b84-b467-03060ec35c8a.png)
+![noPoverty (1)](https://user-images.githubusercontent.com/92223021/229887670-2ed1bd2e-89a3-49e0-82c2-074075b893e5.png)
 
