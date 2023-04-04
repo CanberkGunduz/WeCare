@@ -1,16 +1,21 @@
-# gdsc_metu2023
+# What is WeCare?
 
-A new Flutter project.
+A project that aims to unite people into helping people in need.
 
-## Getting Started
+## Installation
 
-This project is a starting point for a Flutter application.
+This installation guide assumes that you already have Flutter installed on your computer if not install Flutter here.
 
-A few resources to get you started if this is your first Flutter project:
+Open WeCare project on GitHub.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Step 1: Click the Code button and then click Download ZIP.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Step 2: After downloading the zip file, extract it using Winrar or ZIP.
+
+Step 3: Go to your preferred code editor and open the file you extracted before.
+
+Step 4: run pub get command in the terminal.
+
+Step 5: Under the lib folder open the main.dart file and run the app with emulator, simulator or real device.
+
+## Project's Aim
