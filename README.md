@@ -29,3 +29,5 @@ We aim to provide a platform to kind and giving people in the world so that they
 
 ## Targeted United Nations Sustainable Development Goals
 ![noPoverty (2)](https://user-images.githubusercontent.com/92223021/229887758-f51241f9-5bd0-448d-807f-ae7600604ab3.png) ![reducedInequalities (1)](https://user-images.githubusercontent.com/92223021/229887905-48a1656d-2ad3-4e81-950d-2e19b354b0f6.png)
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
