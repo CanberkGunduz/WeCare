@@ -148,8 +148,7 @@ class EventController extends GetxController {
         String uid = firebaseAuth.currentUser!.uid;
         DocumentSnapshot userDoc = await firestore.collection("users").doc(uid).get();
         // get id
-        var allDocs = await firestore.collection("events").get();
-        int len = allDocs.docs.length;
+
         var id = uuid.v1();
 
         String downloadUrl = await _uploadToStorage(eventPhoto, eventName);

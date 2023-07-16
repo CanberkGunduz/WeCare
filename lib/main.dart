@@ -16,6 +16,7 @@ void main() async {
     try {
       await authController.setUserData();
     } catch (e) {
+      print(e);
       authController.signOut();
     }
   });

@@ -39,7 +39,7 @@ class EventTile extends StatelessWidget {
             children: [
               Container(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(4),
                   child: Image.network(
                     event.eventPhoto,
                     fit: BoxFit.cover,
@@ -155,7 +155,7 @@ class EventTileBottomSheet extends StatelessWidget {
             children: [
               Container(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(4),
                   child: Image.network(
                     event.eventPhoto,
                     fit: BoxFit.cover,
@@ -259,13 +259,13 @@ class EventTileUrgent extends StatelessWidget {
             // height: size.height * 0.15,
             width: size.width * 0.35,
             decoration: BoxDecoration(
-              border: Border.all(color: Color.fromARGB(255, 230, 81, 0), width: 1),
+              // border: Border.all(color: Color.fromARGB(255, 230, 81, 0), width: 0.4),
               color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(4),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 0.5,
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 1.4,
                   blurRadius: 1,
                   offset: Offset(0, 0),
                 ),
@@ -276,7 +276,7 @@ class EventTileUrgent extends StatelessWidget {
               children: [
                 Container(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(4),
                     child: Image.network(
                       event.eventPhoto,
                       fit: BoxFit.cover,
